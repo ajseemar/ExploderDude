@@ -21,7 +21,6 @@ class Player {
     }
 
     update (dt, keys, id) {
-        console.log(id);
         if (id === this.id) this.handleInput(dt, keys);
         return { position: this.position, size: this.size };
     }
