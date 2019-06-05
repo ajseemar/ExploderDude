@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     
     
-    socket.on('startGame', (game) => {
+    socket.on('connected', () => {
         
         const inputHandler = new Input();
         document.addEventListener('keydown', e => inputHandler.setKey(e, true));
