@@ -2,9 +2,9 @@ import io from 'socket.io-client';
 
 const socket = io('http://localhost:3000');
 
-const Input = require('./input');
-const Player = require('./player');
-const Grid = require('./grid');
+const Input = require('./input/input');
+const Player = require('./player/player');
+const Grid = require('./game/grid');
 
 document.addEventListener('DOMContentLoaded', () => {
     const canvas = document.getElementById('canvas');

@@ -1,5 +1,8 @@
+const Wall = require('../entities/wall');
+
 class Grid {
-    constructor() {
+    constructor(collisionDetector) {
+        this.collisionDetector = collisionDetector;
         this.gridSize = 17;
         this.playableGridSize = this.gridSize - 2;
         this.gridArray = [...Array(this.gridSize)].map(e => ["X", "X", "X", "X", "X", "X", "X", "X", "X", "X", "X", "X", "X", "X", "X", "X", "X"]);
@@ -27,16 +30,21 @@ class Grid {
         for (let col = 0; col < this.gridArray[0].length; col += 1) {
             this.gridArray[col][rowTop] = "W";
             this.gridArray[col][rowBottom] = "W";
+            this.collisionDetector.addCollidable(new Wall(col, rowTop, this.cellSize));
+            this.collisionDetector.addCollidable(new Wall(col, rowBottom, this.cellSize));
         }
         let colLeft = 0;
         let colRight = this.gridSize - 1;
         for (let row = 0; row < this.gridArray[0].length; row += 1) {
             this.gridArray[colLeft][row] = "W";
             this.gridArray[colRight][row] = "W";
+            this.collisionDetector.addCollidable(new Wall(colLeft, row, this.cellSize));
+            this.collisionDetector.addCollidable(new Wall(colRight, row, this.cellSize));
         }
         for (let i = 2; i < this.gridArray[0].length - 1; i += 2) {
             for (let j = 2; j < this.gridArray[0].length - 1; j += 2) {
-                this.gridArray[i][j] = "W";
+                this.gridArray[j][i] = "W";
+                this.collisionDetector.addCollidable(new Wall(j, i, this.cellSize));
             }
         }
 

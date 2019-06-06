@@ -12,10 +12,12 @@ serv.listen(port, function () {
 
 const io = require('socket.io')(serv, {});
 
-const Player = require('./src/player');
-const Grid = require('./src/grid');
+const Player = require('./src/player/player');
+const Grid = require('./src/game/grid');
+const Engine = require('./src/physicsEngine/engine');
 
-const grid = new Grid();
+const CollisionEngine = new Engine();
+const grid = new Grid(CollisionEngine);
 
 // const player = new Player();
 
@@ -35,6 +37,7 @@ const PLAYERS = {};
 io.sockets.on('connection', (socket) => {
     SOCKETS[socket.id] = socket;
     PLAYERS[socket.id] = new Player(socket.id);
+    CollisionEngine.addEntity(PLAYERS[socket.id]);
     // socket.emit('connected', socket.id);
 
     if (Object.keys(PLAYERS).length === 2) {
