@@ -26,7 +26,7 @@ class Player {
     }
 
     static render (ctx, player) {
-        ctx.fillStyle = "#2fd69b";
+        ctx.fillStyle = "#9375e5";
         // console.log(player);
         ctx.fillRect(player.position.x, player.position.y, player.size, player.size);
     }

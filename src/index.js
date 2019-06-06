@@ -4,6 +4,7 @@ const socket = io('http://localhost:3000');
 
 const Input = require('./input');
 const Player = require('./player');
+const Grid = require('./grid');
 
 document.addEventListener('DOMContentLoaded', () => {
     const canvas = document.getElementById('canvas');
@@ -25,12 +26,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     socket.on('startGame', () => update(Date.now()));
     
-    socket.on('render', (pack) => {
+    socket.on('render', (data) => {
         // console.log('update to render client after server update');
         // console.log(player.position.x, player.position.y);
         // debugger
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        pack.forEach(player => {
+        Grid.render(ctx, data.grid);
+        data.pack.forEach(player => {
             Player.render(ctx, player);
         });
     });

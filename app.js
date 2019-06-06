@@ -13,7 +13,9 @@ serv.listen(port, function () {
 const io = require('socket.io')(serv, {});
 
 const Player = require('./src/player');
+const Grid = require('./src/grid');
 
+const grid = new Grid();
 
 // const player = new Player();
 
@@ -35,7 +37,7 @@ io.sockets.on('connection', (socket) => {
     PLAYERS[socket.id] = new Player(socket.id);
     // socket.emit('connected', socket.id);
 
-    if (Object.keys(PLAYERS).length === 4) {
+    if (Object.keys(PLAYERS).length === 2) {
         Object.values(SOCKETS).forEach(socket => socket.emit('startGame'));
     };
 
@@ -44,7 +46,7 @@ io.sockets.on('connection', (socket) => {
         Object.values(PLAYERS).forEach(player => {
             pack.push(player.update(data.dt, data.pressedKeys, data.id));
         })
-        socket.emit("render", pack);
+        socket.emit("render", {pack, grid});
     });
 
     socket.on('disconnect', socket => {
