@@ -1,43 +1,35 @@
-class Player {
+const Entity = require('./physics/entity');
+const CollisionDetector = require('./physics/collision');
+
+class Player extends Entity {
     constructor (id, grid) {
+        super(48);
         this.id = id;
         this.grid = grid;
-        this.size = 48;
         this.positions = [
-            { x: this.size,  y: this.size  },
-            { x: this.size,  y: (816-this.size*2) },
-            { x: (816-this.size*2), y: (816-this.size*2) },
-            { x: (816-this.size*2), y: this.size  }
+            { x: 48,  y: 48 },
+            { x: 48,  y: (816-96) },
+            { x: (816-96), y: (816-96) },
+            { x: (816-96), y: 48  }
         ];
         this.position = this.positions[Math.floor(Math.random() * this.positions.length)];
-        console.log(this.position);
-        this.velocity = {
-            x: 0,
-            y: 0
-        };
-        
-        this.speed = 10;
-        this.boundingBox = {
-            x: this.position.x + 9,
-            y: this.position.y + 5,
-            width: 30,
-            height: 40
-        };
+        this.speed = 75;
+
+        this.bbox = {
+            tl: this.position.x + (this.size / 4),
+            tr: this.position.y + (this.size / 6),
+            bl: this.size - (this.size / 2),
+            br: this.size - (this.size / 6)
+        }
     }
 
-    handleCollision() {
-        
-        let gridCoords = { 
-            col: Math.floor((this.position.x + this.size/2) / this.size),
-            row: Math.floor((this.position.y + this.size / 2)/ this.size)
-        };
-
-        if (this.grid.gridArray[gridCoords.row][gridCoords.col] === "W" || this.grid.gridArray[gridCoords.row][gridCoords.col] === "O") {
-            
-            return true;
+    updateBBox () {
+        this.bbox = {
+            tl: this.position.x + (this.size / 4),
+            tr: this.position.y + (this.size / 6),
+            bl: this.size - (this.size / 2),
+            br: 28
         }
-        return false;
-        // console.log(this.velocity)
     }
 
     handleInput (keys) {
@@ -54,28 +46,42 @@ class Player {
             else this.velocity.x = 0;
         }
 
+<<<<<<< HEAD
         // else this.velocity.x = 0
         // if (keys && keys.RIGHT) this.position.x = -this.speed * dt;
         // if (keys && keys.LEFT) this.position.x = -this.speed * dt;
+=======
+        if (keys && keys.LEFT) this.velocity.x = -this.speed;
+        else if (keys && keys.RIGHT) this.velocity.x = this.speed;
+        else this.velocity.x = 0;
+    }
+
+    handleCollisions () {
+        this.grid.collidables.filter(collidable =>
+            CollisionDetector.detectCollision(this, collidable)
+        ).forEach(collision => CollisionDetector.resolveCollision(this, collision));
+>>>>>>> 077eadfc08f60e31439f3d13f0beab7ea0064095
     }
 
     update (dt, keys, id) {
         if (id === this.id) {
             this.handleInput(keys);
             
+<<<<<<< HEAD
 
+=======
+>>>>>>> 077eadfc08f60e31439f3d13f0beab7ea0064095
             this.position.y += this.velocity.y * dt;
             this.position.x += this.velocity.x * dt;
+
+            // this.updateBBox();
+            this.handleCollisions();
         }
-        return { position: this.position, size: this.size, boundingBox: this.boundingBox };
+        return { position: this.position, size: this.size /* , bbox: this.bbox */};
     }
 
     static render (ctx, player, img) {
-        ctx.fillStyle = "#9375e5";
-        // debugger
-        // console.log(img.src);
-        // debugger
-        ctx.fillRect(player.position.x, player.position.y, player.size, player.size);
+        // ctx.rect(player.bbox.tl, player.bbox.tr, player.bbox.bl - player.bbox.br, player.bbox.tl- player.bbox.tr);
         ctx.drawImage(img, 0, 0, 32, 32, player.position.x, player.position.y, player.size, player.size);
     }
 }

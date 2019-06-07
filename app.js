@@ -17,25 +17,16 @@ const Grid = require('./src/grid');
 
 const grid = new Grid();
 
-// const player = new Player();
-
-
-
-
-
 const SOCKETS = {};
 const PLAYERS = {};
-
-
-
-
-
-
 
 io.sockets.on('connection', (socket) => {
     SOCKETS[socket.id] = socket;
     PLAYERS[socket.id] = new Player(socket.id, grid);
+<<<<<<< HEAD
     // socket.emit('connected', socket.id);
+=======
+>>>>>>> 077eadfc08f60e31439f3d13f0beab7ea0064095
 
     if (Object.keys(PLAYERS).length === 2) {
         Object.values(SOCKETS).forEach(socket => socket.emit('startGame'));
