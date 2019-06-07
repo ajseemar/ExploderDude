@@ -40,8 +40,8 @@ class ResourceManager {
 
         let ready = true;
         Object.keys(this.resourceCache).forEach(k => {
-            if (this.resourceCache.hasOwnProperty(k) && !(this.resourceCache[k]))
-                ready = false;
+            // if (this.resourceCache.hasOwnProperty(k) && !(this.resourceCache[k])) ready = false;
+            if (!(this.resourceCache[k])) ready = false;
         });
         return ready;
     }

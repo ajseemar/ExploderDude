@@ -8,7 +8,7 @@ class Grid {
         this.createWalls();
         this.createObstacles();
 
-        // this.grassImg = new Image();
+        // this.wallImg = new Image();
         // this.grassImg.onload(() => this.grassImg.src = grassImg);
         // this.grassImgSrc = grassImg;
         // // this.grassImg = grassImg;
@@ -60,7 +60,7 @@ class Grid {
         }
     }
 
-    static render(ctx, grid) {
+    static render(ctx, grid, grassImg, wallImg, crateImg) {
         grid.gridArray.forEach((col, x) => {
             col.forEach((el, y) => {
                 let canvasCoords = [48 * x, 48 * y];
@@ -68,18 +68,22 @@ class Grid {
                     case "X":
                         // let background = new Background(ctx, canvasCoords, grassImg);
                         // background.render();
-                        ctx.fillStyle = "#0f0"
-                        ctx.fillRect(canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize);
+                        // ctx.fillStyle = "#0f0"
+                        // ctx.fillRect(canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize);
+                        ctx.drawImage(grassImg, 0, 0, grassImg.width, grassImg.height, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
                         break;
                     case "W":
-                        ctx.fillStyle = "#000"
-                        ctx.fillRect(canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize);
+                        // ctx.fillStyle = "#000"
+                        // ctx.fillRect(canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize);
+                        ctx.drawImage(wallImg, 0, 0, wallImg.width, wallImg.height, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
                         // let wall = new Wall(ctx, canvasCoords, wallImg)
+                        
                         // wall.render();
                         break;
                     case "O":
-                        ctx.fillStyle = "#a07f1b"
-                        ctx.fillRect(canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize);
+                        // ctx.fillStyle = "#a07f1b"
+                        // ctx.fillRect(canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize);
+                        ctx.drawImage(crateImg, 0, 0, crateImg.width, crateImg.height, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
                         // let obstacle = new Obstacle(ctx, canvasCoords, crateImg)
                         // obstacle.render();
                         break;

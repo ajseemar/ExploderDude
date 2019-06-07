@@ -37,7 +37,7 @@ io.sockets.on('connection', (socket) => {
     PLAYERS[socket.id] = new Player(socket.id);
     // socket.emit('connected', socket.id);
 
-    if (Object.keys(PLAYERS).length === 2) {
+    if (Object.keys(PLAYERS).length === 4) {
         Object.values(SOCKETS).forEach(socket => socket.emit('startGame'));
     };
 
