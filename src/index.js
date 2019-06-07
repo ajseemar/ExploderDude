@@ -35,15 +35,11 @@ explosionImg.src = "https://raw.githubusercontent.com/camcarter131/MERN_stack_pr
 heartImg.src = "https://raw.githubusercontent.com/camcarter131/MERN_stack_project/master/frontend/public/heart.png";
 //----------------------->
 
+
 document.addEventListener('DOMContentLoaded', () => {
     const canvas = document.getElementById('canvas');
     const ctx = canvas.getContext('2d');
     const inputHandler = new Input();
-    // const resourceManager = new ResourceManager();
-
-    // resourceManager.load(Object.values(imgSources));
-
-
 
     const update = initialTime => {
         let time = Date.now();
@@ -55,20 +51,12 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('keydown', e => inputHandler.setKey(e, true));
     document.addEventListener('keyup', e => inputHandler.setKey(e, false));
 
-    // socket.on('connected', () => {
-    // });
-
     socket.on('startGame', () => update(Date.now()));
     
     socket.on('render', (data) => {
-        // console.log('update to render client after server update');
-        // console.log(player.position.x, player.position.y);
-        // debugger
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         Grid.render(ctx, data.grid, grassImg, wallImg, crateImg);
         data.pack.forEach(player => {
-            // debugger
-            // Player.render(ctx, player, resourceManager.get(imgSources['player']));
             Player.render(ctx, player, playerImg);
         });
     });
