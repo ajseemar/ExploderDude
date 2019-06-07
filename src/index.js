@@ -35,6 +35,17 @@ explosionImg.src = "https://raw.githubusercontent.com/camcarter131/MERN_stack_pr
 heartImg.src = "https://raw.githubusercontent.com/camcarter131/MERN_stack_project/master/frontend/public/heart.png";
 //----------------------->
 
+var gp;
+
+window.addEventListener("gamepadconnected", function (e) {
+    // debugger
+    // gamepad = e.gamepad;
+    // console.log(e.gamepad);
+    console.log(`Gamepad connected at index ${e.gamepad.index}: ${e.gamepad.id}. ${e.gamepad.buttons.length} buttons, ${e.gamepad.axes.length} axes.`);
+    // if (e.gamepad.buttons[12].pressed) console.log(gamepad.buttons[12]);
+    gp = navigator.getGamepads()[0];
+    // debugger;
+});
 
 document.addEventListener('DOMContentLoaded', () => {
     const canvas = document.getElementById('canvas');
@@ -44,7 +55,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const update = initialTime => {
         let time = Date.now();
         let dt = (time - initialTime) / 1000.0;
+
+        // if (gp) inputHandler.readGamePad(gp);
         socket.emit('update', { dt, pressedKeys: inputHandler.pressedKeys, id: socket.id });
+
         initialTime = time;
         requestAnimationFrame(() => update(initialTime));
     };
@@ -63,3 +77,49 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+
+
+/*
+
+if (navigator.getGamepads()[0].axes[6] > 0) {
+            console.log('pressed RIGHT on D-PAD');
+            keys.right = true;
+            socket.emit('keysPressed', keys);
+        }
+        else if (navigator.getGamepads()[0].axes[6] < 0) {
+            console.log('pressed LEFT on D-PAD');
+            keys.left = true;
+            socket.emit('keysPressed', keys);
+        } else {
+            keys.right = false;
+            keys.left = false;
+            socket.emit('keysPressed', keys);
+        }
+
+        if (navigator.getGamepads()[0].axes[7] > 0) {
+            console.log('pressed DOWN on D-PAD');
+            keys.down = true;
+            socket.emit('keysPressed', keys);
+        }
+        else if (navigator.getGamepads()[0].axes[7] < 0) {
+            console.log('pressed UP on D-PAD');
+            keys.up = true;
+            socket.emit('keysPressed', keys);
+        } else {
+            keys.down = false;
+            keys.up = false;
+            socket.emit('keysPressed', keys);
+        }
+
+        [0, 1, 2, 3].forEach(btnIdx => {
+            if (navigator.getGamepads()[0].buttons[btnIdx].value > 0) {
+                console.log('pressed FIRE BOMB');
+                keys.space = true;
+                socket.emit('keysPressed', keys);
+            } else {
+                keys.space = false;
+                socket.emit('keysPressed', keys);
+            }
+        });
+
+*/
