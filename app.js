@@ -34,7 +34,7 @@ const PLAYERS = {};
 
 io.sockets.on('connection', (socket) => {
     SOCKETS[socket.id] = socket;
-    PLAYERS[socket.id] = new Player(socket.id);
+    PLAYERS[socket.id] = new Player(socket.id, grid);
     // socket.emit('connected', socket.id);
 
     if (Object.keys(PLAYERS).length === 2) {

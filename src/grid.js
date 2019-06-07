@@ -8,17 +8,6 @@ class Grid {
         this.createWalls();
         this.createObstacles();
 
-        // this.wallImg = new Image();
-        // this.grassImg.onload(() => this.grassImg.src = grassImg);
-        // this.grassImgSrc = grassImg;
-        // // this.grassImg = grassImg;
-        // this.wallImgSrc = wallImg;
-        // this.crateImgSrc = crateImg;
-        // this.bombImgSrc = bombImg;
-        // this.explosionImgSrc = explosionImg;
-        // console.log(this.explosionImgSrc)
-
-        // this.renderGame(this.ctx);
     }
 
     createWalls() {
@@ -43,8 +32,8 @@ class Grid {
     }
 
     createObstacles() {
-        for (let i = 1; i < this.gridArray[0].length - 1; i += 1) {
-            for (let j = 1; j < this.gridArray[0].length - 1; j += 1) {
+        for (let j = 1; j < this.gridArray[0].length - 1; j += 1) {
+            for (let i = 1; i < this.gridArray[0].length - 1; i += 1) {
                 // if (i === 15 && j === 15) break;
                 if ((i === 1 && j === 15) || (i === 1 && j === 1) || (i === 15 && j === 1) || (i === 15 && j === 15)
                     || (i === 1 && j === 2) || (i === 2 && j === 1)
@@ -88,6 +77,7 @@ class Grid {
                         // obstacle.render();
                         break;
                 }
+                debugger
             });
         });
     }

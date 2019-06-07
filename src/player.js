@@ -1,11 +1,13 @@
 class Player {
-    constructor (id) {
+    constructor (id, grid) {
         this.id = id;
+        this.grid = grid;
+        this.size = 48;
         this.positions = [
-            { x: 48,  y: 48  },
-            { x: 48,  y: (816-96) },
-            { x: (816-96), y: (816-96) },
-            { x: (816-96), y: 48  }
+            { x: this.size,  y: this.size  },
+            { x: this.size,  y: (816-this.size*2) },
+            { x: (816-this.size*2), y: (816-this.size*2) },
+            { x: (816-this.size*2), y: this.size  }
         ];
         this.position = this.positions[Math.floor(Math.random() * this.positions.length)];
         console.log(this.position);
@@ -13,8 +15,8 @@ class Player {
             x: 0,
             y: 0
         };
-        this.size = 48;
-        this.speed = 75;
+        
+        this.speed = 10;
         this.boundingBox = {
             x: this.position.x + 9,
             y: this.position.y + 5,
@@ -25,18 +27,33 @@ class Player {
 
     handleCollision() {
         
+        let gridCoords = { 
+            col: Math.floor((this.position.x + this.size/2) / this.size),
+            row: Math.floor((this.position.y + this.size / 2)/ this.size)
+        };
+
+        if (this.grid.gridArray[gridCoords.row][gridCoords.col] === "W" || this.grid.gridArray[gridCoords.row][gridCoords.col] === "O") {
+            
+            return true;
+        }
+        return false;
+        // console.log(this.velocity)
     }
 
-
-
     handleInput (keys) {
-        if (keys && keys.UP) this.velocity.y = -this.speed;
-        else if (keys && keys.DOWN) this.velocity.y = this.speed;
-        else this.velocity.y = 0
+        if (this.handleCollision()) {
+            this.velocity.x = 0;
+            this.velocity.y = 0;
+        } else{
+            if (keys && keys.UP) this.velocity.y = -this.speed;
+            else if (keys && keys.DOWN) this.velocity.y = this.speed;
+            else this.velocity.y = 0
+    
+            if (keys && keys.LEFT) this.velocity.x = -this.speed;
+            else if (keys && keys.RIGHT) this.velocity.x = this.speed;
+            else this.velocity.x = 0;
+        }
 
-        if (keys && keys.LEFT) this.velocity.x = -this.speed;
-        else if (keys && keys.RIGHT) this.velocity.x = this.speed;
-        else this.velocity.x = 0;
         // else this.velocity.x = 0
         // if (keys && keys.RIGHT) this.position.x = -this.speed * dt;
         // if (keys && keys.LEFT) this.position.x = -this.speed * dt;
@@ -46,7 +63,6 @@ class Player {
         if (id === this.id) {
             this.handleInput(keys);
             
-            // handle collision
 
             this.position.y += this.velocity.y * dt;
             this.position.x += this.velocity.x * dt;
