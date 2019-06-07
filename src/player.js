@@ -46,11 +46,6 @@ class Player extends Entity {
             else this.velocity.x = 0;
         }
 
-<<<<<<< HEAD
-        // else this.velocity.x = 0
-        // if (keys && keys.RIGHT) this.position.x = -this.speed * dt;
-        // if (keys && keys.LEFT) this.position.x = -this.speed * dt;
-=======
         if (keys && keys.LEFT) this.velocity.x = -this.speed;
         else if (keys && keys.RIGHT) this.velocity.x = this.speed;
         else this.velocity.x = 0;
@@ -60,17 +55,12 @@ class Player extends Entity {
         this.grid.collidables.filter(collidable =>
             CollisionDetector.detectCollision(this, collidable)
         ).forEach(collision => CollisionDetector.resolveCollision(this, collision));
->>>>>>> 077eadfc08f60e31439f3d13f0beab7ea0064095
     }
 
     update (dt, keys, id) {
         if (id === this.id) {
             this.handleInput(keys);
             
-<<<<<<< HEAD
-
-=======
->>>>>>> 077eadfc08f60e31439f3d13f0beab7ea0064095
             this.position.y += this.velocity.y * dt;
             this.position.x += this.velocity.x * dt;
 

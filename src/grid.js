@@ -44,14 +44,8 @@ class Grid {
     }
 
     createObstacles() {
-<<<<<<< HEAD
-        for (let j = 1; j < this.gridArray[0].length - 1; j += 1) {
-            for (let i = 1; i < this.gridArray[0].length - 1; i += 1) {
-                // if (i === 15 && j === 15) break;
-=======
         for (let i = 1; i < this.gridArray[0].length - 1; i += 1) {
             for (let j = 1; j < this.gridArray[0].length - 1; j += 1) {
->>>>>>> 077eadfc08f60e31439f3d13f0beab7ea0064095
                 if ((i === 1 && j === 15) || (i === 1 && j === 1) || (i === 15 && j === 1) || (i === 15 && j === 15)
                     || (i === 1 && j === 2) || (i === 2 && j === 1)
                     || (i === 15 && j === 2) || (i === 14 && j === 1)
