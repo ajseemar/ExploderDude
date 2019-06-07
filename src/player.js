@@ -14,6 +14,22 @@ class Player extends Entity {
         ];
         this.position = this.positions[Math.floor(Math.random() * this.positions.length)];
         this.speed = 75;
+
+        this.bbox = {
+            tl: this.position.x + (this.size / 4),
+            tr: this.position.y + (this.size / 6),
+            bl: this.size - (this.size / 2),
+            br: this.size - (this.size / 6)
+        }
+    }
+
+    updateBBox () {
+        this.bbox = {
+            tl: this.position.x + (this.size / 4),
+            tr: this.position.y + (this.size / 6),
+            bl: this.size - (this.size / 2),
+            br: 28
+        }
     }
 
     handleInput (keys) {
@@ -39,12 +55,14 @@ class Player extends Entity {
             this.position.y += this.velocity.y * dt;
             this.position.x += this.velocity.x * dt;
 
+            // this.updateBBox();
             this.handleCollisions();
         }
-        return { position: this.position, size: this.size, boundingBox: this.boundingBox };
+        return { position: this.position, size: this.size /* , bbox: this.bbox */};
     }
 
     static render (ctx, player, img) {
+        // ctx.rect(player.bbox.tl, player.bbox.tr, player.bbox.bl - player.bbox.br, player.bbox.tl- player.bbox.tr);
         ctx.drawImage(img, 0, 0, 32, 32, player.position.x, player.position.y, player.size, player.size);
     }
 }
