@@ -2,10 +2,10 @@ class Player {
     constructor (id) {
         this.id = id;
         this.positions = [
-            { x: 64,  y: 64  },
-            { x: 64,  y: 734 },
-            { x: 736, y: 734 },
-            { x: 736, y: 64  }
+            { x: 48,  y: 48  },
+            { x: 48,  y: (816-96) },
+            { x: (816-96), y: (816-96) },
+            { x: (816-96), y: 48  }
         ];
         this.position = this.positions[Math.floor(Math.random() * this.positions.length)];
         console.log(this.position);
@@ -23,7 +23,13 @@ class Player {
         };
     }
 
-    handleInput (dt, keys) {
+    handleCollision() {
+        
+    }
+
+
+
+    handleInput (keys) {
         if (keys && keys.UP) this.velocity.y = -this.speed;
         else if (keys && keys.DOWN) this.velocity.y = this.speed;
         else this.velocity.y = 0
@@ -38,7 +44,7 @@ class Player {
 
     update (dt, keys, id) {
         if (id === this.id) {
-            this.handleInput(dt, keys);
+            this.handleInput(keys);
             
             // handle collision
 
@@ -53,8 +59,8 @@ class Player {
         // debugger
         // console.log(img.src);
         // debugger
-        // ctx.fillRect(player.boundingBox.x, player.boundingBox.y, player.boundingBox.width, player.boundingBox.height);
-        ctx.drawImage(img, 0, 0, 32, 32, player.position.x, player.position.y, 48, 48);
+        ctx.fillRect(player.position.x, player.position.y, player.size, player.size);
+        ctx.drawImage(img, 0, 0, 32, 32, player.position.x, player.position.y, player.size, player.size);
     }
 }
 
