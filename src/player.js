@@ -33,7 +33,7 @@ class Player extends Entity {
     }
 
     handleInput (keys) {
-        if (this.handleCollision()) {
+        if (this.handleCollisions()) {
             this.velocity.x = 0;
             this.velocity.y = 0;
         } else{

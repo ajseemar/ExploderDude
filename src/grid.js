@@ -86,7 +86,7 @@ class Grid {
                         //     break;
                     }
                 }
-                debugger
+                // debugger
             });
         });
     }
