@@ -45,7 +45,6 @@ class Grid {
     createObstacles() {
         for (let i = 1; i < this.gridArray[0].length - 1; i += 1) {
             for (let j = 1; j < this.gridArray[0].length - 1; j += 1) {
-                // if (i === 15 && j === 15) break;
                 if ((i === 1 && j === 15) || (i === 1 && j === 1) || (i === 15 && j === 1) || (i === 15 && j === 15)
                     || (i === 1 && j === 2) || (i === 2 && j === 1)
                     || (i === 15 && j === 2) || (i === 14 && j === 1)
@@ -66,26 +65,13 @@ class Grid {
                 let canvasCoords = [48 * x, 48 * y];
                 switch (el) {
                     case "X":
-                        // let background = new Background(ctx, canvasCoords, grassImg);
-                        // background.render();
-                        // ctx.fillStyle = "#0f0"
-                        // ctx.fillRect(canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize);
                         ctx.drawImage(grassImg, 0, 0, grassImg.width, grassImg.height, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
                         break;
                     case "W":
-                        // ctx.fillStyle = "#000"
-                        // ctx.fillRect(canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize);
                         ctx.drawImage(wallImg, 0, 0, wallImg.width, wallImg.height, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
-                        // let wall = new Wall(ctx, canvasCoords, wallImg)
-                        
-                        // wall.render();
                         break;
                     case "O":
-                        // ctx.fillStyle = "#a07f1b"
-                        // ctx.fillRect(canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize);
                         ctx.drawImage(crateImg, 0, 0, crateImg.width, crateImg.height, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
-                        // let obstacle = new Obstacle(ctx, canvasCoords, crateImg)
-                        // obstacle.render();
                         break;
                 }
             });
