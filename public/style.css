@@ -1,0 +1,40 @@
+#main-container {
+    display: flex;
+    justify-content: center;
+    height: 70%;
+}
+
+#title-container {
+    display: flex;
+    justify-content: center;
+}
+
+#title-div {
+    font-size: 90px;
+    font-family: Pixel Emulator;
+    color: rgb(219, 59, 59);
+}
+
+#instructions-container {
+    background: rgb(215, 212, 212);
+    display: flex;
+    flex-direction: column;
+    margin: 15%;
+    border: 2px solid black;
+    height: 100%;
+    width: 15%;
+}
+
+#canvas-container {
+
+}
+
+#stats-container {
+    background: rgb(215, 212, 212);
+    display: flex;
+    flex-direction: column;
+    margin: 15%;
+    border: 2px solid black;
+    height: 100%;
+    width: 15%;
+}
