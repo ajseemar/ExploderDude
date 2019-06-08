@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     socket.on('render', (data) => {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        Grid.render(ctx, data.grid, grassImg, wallImg, crateImg);
+        Grid.render(ctx, data.grid, grassImg, wallImg, crateImg, bombImg, explosionImg);
         data.pack.forEach(player => {
             Player.render(ctx, player, playerImg);
             // ctx.rect(player.position.x + (player.size / 4), player.position.y + (player.size / 6), player.size - (player.size / 2), player.size - (player.size / 4));

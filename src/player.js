@@ -49,6 +49,14 @@ class Player extends Entity {
         if (keys && keys.LEFT) this.velocity.x = -this.speed;
         else if (keys && keys.RIGHT) this.velocity.x = this.speed;
         else this.velocity.x = 0;
+
+        // handle bomb dropping
+        if (keys && keys.SPACE) {
+            // debugger
+            let gridCoords = [Math.floor(this.position.x / 48), Math.floor(this.position.y / 48)];
+            this.grid.gridArray[gridCoords[0]][gridCoords[1]] = "B";
+            // console.log(this.position);
+        }
     }
 
     handleCollisions () {
