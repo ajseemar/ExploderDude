@@ -1,7 +1,7 @@
 #main-container {
     display: flex;
     justify-content: center;
-    height: 70%;
+    height: 100%;
 }
 
 #title-container {
@@ -25,10 +25,6 @@
     text-align: center;
 }
 
-#canvas-container {
-
-}
-
 #stats-container {
     background: rgb(215, 212, 212);
     display: flex;
@@ -36,6 +32,15 @@
     border: 2px solid black;
     height: 100%;
     width: 18%;
+    text-align: center;
+}
+
+#items-container {
+    background: rgb(215, 212, 212);
+    display: flex;
+    flex-direction: column;
+    border: 2px solid black;
+    height: 30%;
     text-align: center;
 }
 
@@ -53,6 +58,14 @@ img.instructions {
     margin-top: auto;
     margin-bottom: 10%;
 }
+
+img.instructions#items {
+  
+  position: absolute;
+  clip: rect(0, 450px, 200px, 0);
+  /* clip: shape(top, right, bottom, left); NB 'rect' is the only available option */
+}
+
 
 img#arrows {
     height: 17%;

@@ -25,6 +25,7 @@ const crateImg = new Image();
 const explosionImg = new Image();
 const wallImg = new Image();
 const heartImg = new Image();
+const itemsImg = new Image();
 
 playerImg.src = "https://raw.githubusercontent.com/camcarter131/MERN_stack_project/master/frontend/public/assets/images/df_bomber_ss.png";
 grassImg.src = "https://raw.githubusercontent.com/camcarter131/MERN_stack_project/master/frontend/public/assets/images/grass.png";
@@ -33,6 +34,8 @@ crateImg.src = "https://raw.githubusercontent.com/camcarter131/MERN_stack_projec
 bombImg.src = "https://raw.githubusercontent.com/camcarter131/MERN_stack_project/master/frontend/public/bomb.png";
 explosionImg.src = "https://raw.githubusercontent.com/camcarter131/MERN_stack_project/master/frontend/public/explosion.png";
 heartImg.src = "https://raw.githubusercontent.com/camcarter131/MERN_stack_project/master/frontend/public/heart.png";
+itemsImg.src = "https://i.pinimg.com/originals/44/7a/07/447a078952a30cad0d3ee4a0c6832613.png";
+
 //----------------------->
 
 
@@ -55,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     socket.on('render', (data) => {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        Grid.render(ctx, data.grid, grassImg, wallImg, crateImg, bombImg, explosionImg);
+        Grid.render(ctx, data.grid, grassImg, wallImg, crateImg, bombImg, explosionImg, itemsImg);
         data.pack.forEach(player => {
             Player.render(ctx, player, playerImg);
             // ctx.rect(player.position.x + (player.size / 4), player.position.y + (player.size / 6), player.size - (player.size / 2), player.size - (player.size / 4));
