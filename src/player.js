@@ -178,7 +178,21 @@ class Player extends Entity {
             // this.updateBBox();
             this.handleCollisions();
         }
-        return { position: this.position, size: this.size /* , bbox: this.bbox */};
+        return { position: this.position, size: this.size, grid: this.grid /* , bbox: this.bbox */};
+    }
+
+    isDead () {
+        let gridCoords = [Math.floor(this.position.x / 48), Math.floor(this.position.y / 48)];
+        if (
+            this.grid.gridArray[gridCoords[0]][gridCoords[1]] === "EC" ||  
+            this.grid.gridArray[gridCoords[0]][gridCoords[1]] === "EU" ||  
+            this.grid.gridArray[gridCoords[0]][gridCoords[1]] === "ED" ||  
+            this.grid.gridArray[gridCoords[0]][gridCoords[1]] === "EL" ||  
+            this.grid.gridArray[gridCoords[0]][gridCoords[1]] === "ER" 
+        ) {
+            this.position.x = 48;
+            this.position.y = 48;
+        }
     }
 
     static render (ctx, player, img) {
