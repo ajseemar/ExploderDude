@@ -43,17 +43,17 @@ class CollisionDetector {
         const absDY = Math.abs(dy);
         if (absDX > absDY) {
             if (dx < 0) {
-                player.position.x = entity.getRight() - player.size / 4; // - (player.bbox.tl - player.position.x); // - player.bbox.tl(player.size / 4);
+                player.position.x = entity.getRight() - player.size / 4 + 1; // - (player.bbox.tl - player.position.x); // - player.bbox.tl(player.size / 4);
 
             } else {
-                player.position.x = entity.getLeft() - player.width + player.size / 4; // + (player.bbox.tl - player.position.x); // + player.size / 4; // + player.size / 4;
+                player.position.x = entity.getLeft() - player.width + player.size / 4 - 1; // + (player.bbox.tl - player.position.x); // + player.size / 4; // + player.size / 4;
                 // player.position.x = entity.getLeft() + player.size / 4;
             }
         } else {
             if (dy < 0) {
-                player.position.y = entity.getBottom() - player.size / 6; // - (player.bbox.tr - player.position.y); // - player.size / 6;
+                player.position.y = entity.getBottom() - player.size / 6 + 1; // - (player.bbox.tr - player.position.y); // - player.size / 6;
             } else {
-                player.position.y = entity.getTop() - player.height  + player.size / 8; // + (player.bbox.tr - player.position.y); // + player.size / 6;
+                player.position.y = entity.getTop() - player.height  + player.size / 8 - 1; // + (player.bbox.tr - player.position.y); // + player.size / 6;
             }
         }
     }
