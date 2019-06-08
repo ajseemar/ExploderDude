@@ -80,6 +80,9 @@ class Grid {
                             ctx.drawImage(grassImg, 0, 0, grassImg.width, grassImg.height, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
                             ctx.drawImage(bombImg, 0, 0, bombImg.width, bombImg.height, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
                             break;
+                        case "E":
+                            ctx.drawImage(explosionImg, 0, 0, explosionImg.width, explosionImg.height, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
+                            break;
                         // case "W":
                         //     ctx.drawImage(wallImg, 0, 0, wallImg.width, wallImg.height, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
                         //     break;

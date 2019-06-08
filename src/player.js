@@ -14,6 +14,7 @@ class Player extends Entity {
         ];
         this.position = this.positions[Math.floor(Math.random() * this.positions.length)];
         this.speed = 75;
+        this.bombCount = 1;
 
         this.bbox = {
             tl: this.position.x + (this.size / 4),
@@ -30,6 +31,23 @@ class Player extends Entity {
             bl: this.size - (this.size / 2),
             br: 28
         }
+    }
+
+    explodeBomb (gridCoords) {
+        this.grid.gridArray[gridCoords[0]][gridCoords[1]] = "E";
+        setTimeout(() => {
+            this.grid.gridArray[gridCoords[0]][gridCoords[1]] = "X";
+        }, 2000);
+    }
+
+    dropBomb () {
+        let gridCoords = [Math.floor((this.position.x + 24) / 48), Math.floor((this.position.y + 24) / 48)];
+        this.grid.gridArray[gridCoords[0]][gridCoords[1]] = "B";
+        this.bombCount--;
+        setTimeout(() => {
+            this.bombCount++;
+            this.explodeBomb(gridCoords);
+        }, 4000);
     }
 
     handleInput (keys) {
@@ -52,10 +70,7 @@ class Player extends Entity {
 
         // handle bomb dropping
         if (keys && keys.SPACE) {
-            // debugger
-            let gridCoords = [Math.floor(this.position.x / 48), Math.floor(this.position.y / 48)];
-            this.grid.gridArray[gridCoords[0]][gridCoords[1]] = "B";
-            // console.log(this.position);
+            this.dropBomb();
         }
     }
 
