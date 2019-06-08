@@ -11,17 +11,6 @@ class Grid {
         this.createWalls();
         this.createObstacles();
 
-        // this.wallImg = new Image();
-        // this.grassImg.onload(() => this.grassImg.src = grassImg);
-        // this.grassImgSrc = grassImg;
-        // // this.grassImg = grassImg;
-        // this.wallImgSrc = wallImg;
-        // this.crateImgSrc = crateImg;
-        // this.bombImgSrc = bombImg;
-        // this.explosionImgSrc = explosionImg;
-        // console.log(this.explosionImgSrc)
-
-        // this.renderGame(this.ctx);
     }
 
     createWalls() {
@@ -63,7 +52,7 @@ class Grid {
                     || (i === 15 && j === 14) || (i === 14 && j === 15)
                     || (i === 1 && j === 14) || (i === 2 && j === 15)) continue;
                 if (this.gridArray[i][j].type === "wall") continue;
-                if (Math.random() < 0.33) {
+                if (Math.random() < 0.2) {
                     // this.gridArray[i][j] = "O";
                     this.gridArray[i][j] = new Obstacle(j, i, this.cellSize);
                     this.collidables.push(this.gridArray[i][j]);
@@ -72,7 +61,7 @@ class Grid {
         }
     }
 
-    static render(ctx, grid, grassImg, wallImg, crateImg) {
+    static render(ctx, grid, grassImg, wallImg, crateImg, bombImg, explosionImg) {
         grid.gridArray.forEach((col, x) => {
             col.forEach((el, y) => {
                 let canvasCoords = [48 * x, 48 * y];
@@ -80,14 +69,46 @@ class Grid {
                     ctx.drawImage(wallImg, 0, 0, wallImg.width, wallImg.height, el.position.x, el.position.y, el.size, el.size);
                 }
                 if (el.type && el.type === "obstacle") {
-                    // debugger
                     ctx.drawImage(crateImg, 0, 0, crateImg.width, crateImg.height, el.position.x, el.position.y, el.size, el.size);
-                    // debugger
                 }
                 else {
                     switch (el) {
                         case "X":
                             ctx.drawImage(grassImg, 0, 0, grassImg.width, grassImg.height, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
+                            break;
+                        case "B":
+                            ctx.drawImage(grassImg, 0, 0, grassImg.width, grassImg.height, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
+                            ctx.drawImage(bombImg, 0, 0, bombImg.width, bombImg.height, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
+                            break;
+                        //center of explosion
+                        case "EC":
+                            ctx.drawImage(grassImg, 0, 0, grassImg.width, grassImg.height, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
+                            ctx.drawImage(explosionImg, 0, 0, explosionImg.width/7, explosionImg.height/3, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
+                            break;
+                        //explode up
+                        case "EU":                          
+                            ctx.drawImage(grassImg, 0, 0, grassImg.width, grassImg.height, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
+                            ctx.drawImage(explosionImg, 0, 2*explosionImg.height / 3, explosionImg.width/7, explosionImg.height/3, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize);                           
+                            break;
+                        //explode down
+                        case "ED":
+                            ctx.drawImage(grassImg, 0, 0, grassImg.width, grassImg.height, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
+                            ctx.drawImage(explosionImg, 0, 2*explosionImg.height/3, explosionImg.width/7, explosionImg.height/3, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
+                            break;
+                        //explode left
+                        case "EL":                          
+                            ctx.drawImage(grassImg, 0, 0, grassImg.width, grassImg.height, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
+                            ctx.drawImage(explosionImg, 0, 2*explosionImg.height / 3, explosionImg.width/7, explosionImg.height/3, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize);                           
+                            break;
+                        //explode right
+                        case "ER":
+                            ctx.drawImage(grassImg, 0, 0, grassImg.width, grassImg.height, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
+                            ctx.drawImage(explosionImg, 0, 2*explosionImg.height/3, explosionImg.width/7, explosionImg.height/3, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
+                            break;
+                        //explode a crate
+                        case "EO":
+                            ctx.drawImage(grassImg, 0, 0, grassImg.width, grassImg.height, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
+                            ctx.drawImage(explosionImg, 0, 0, explosionImg.width, explosionImg.height, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
                             break;
                         // case "W":
                         //     ctx.drawImage(wallImg, 0, 0, wallImg.width, wallImg.height, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
@@ -97,6 +118,7 @@ class Grid {
                         //     break;
                     }
                 }
+                // debugger
             });
         });
     }

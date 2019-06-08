@@ -1,0 +1,69 @@
+#main-container {
+    display: flex;
+    justify-content: center;
+    height: 70%;
+}
+
+#title-container {
+    display: flex;
+    justify-content: center;
+}
+
+#title-div {
+    font-size: 90px;
+    font-family: Pixel Emulator;
+    color: rgb(230, 63, 63);
+}
+
+#instructions-container {
+    background: rgb(215, 212, 212);
+    display: flex;
+    flex-direction: column;
+    border: 2px solid black;
+    height: 100%;
+    width: 18%;
+    text-align: center;
+}
+
+#canvas-container {
+
+}
+
+#stats-container {
+    background: rgb(215, 212, 212);
+    display: flex;
+    flex-direction: column;
+    border: 2px solid black;
+    height: 100%;
+    width: 18%;
+    text-align: center;
+}
+
+h1.title {
+    font-size: 38px;
+    font-family: Pixel Emulator;
+    color: rgb(0, 0, 0);
+}
+
+img.instructions {
+    
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: auto;
+    margin-bottom: 10%;
+}
+
+img#arrows {
+    height: 17%;
+}
+
+img#space {
+    width: 60%;
+}
+
+p {
+    font-size: 18px;
+    font-family: Pixel Emulator;
+    color: rgb(0, 0, 0);
+}
