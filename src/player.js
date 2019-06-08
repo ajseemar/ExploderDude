@@ -13,8 +13,9 @@ class Player extends Entity {
             { x: (816-96), y: 48  }
         ];
         this.position = this.positions[Math.floor(Math.random() * this.positions.length)];
-        this.speed = 75;
+        this.speed = 150;
         this.bombCount = 1;
+        this.bombSize = 1;
 
         this.bbox = {
             tl: this.position.x + (this.size / 4),
@@ -33,10 +34,92 @@ class Player extends Entity {
         }
     }
 
-    explodeBomb (gridCoords) {
-        this.grid.gridArray[gridCoords[0]][gridCoords[1]] = "E";
+    explodeBomb (center) {
+        let gridArray = this.grid.gridArray;
+        this.grid.gridArray[center[0]][center[1]] = "EC";
+        let positionsToClear = [center];
+        let col = center[0];
+        let row = center[1];
+
+        for (let i = 1; i <= this.bombSize; i++) {
+
+            //---------------------UP---------------------->
+            if (
+                row - i <= 16
+                && gridArray[col][row-i] !== 'W'
+                && gridArray[col][row-i] !== 'O'
+            ) {
+                gridArray[col][row-i] = 'EU';
+                positionsToClear.push([col, row-i]);
+                //if it is an obstacle OR we've already encountered an obstacle in this direction
+            } else if (row - i <= 16 && upClear && gridArray[col][row-i] === 'O') {
+                //if it's the first obstacle we've encountered, destroy it and set boolean false but still decrement so explosion doesn't extend
+                gridArray[col][row-i] = 'EO';
+                positionsToClear.push([col, row - i]);
+                // if (obstacleClearUp) {
+                    // obstacleClearUp = false;
+                // }
+            }
+
+            //---------------------DOWN---------------------->
+            if (
+                row+i <= 16
+                && gridArray[col][row+i] !== 'W'
+                && gridArray[col][row+i] !== 'O'
+            ) {
+                gridArray[col][row+i] = 'ED';
+                positionsToClear.push([col, row+i]);
+                //if it is an obstacle OR we've already encountered an obstacle in this direction
+            } else if (row+i <= 16 && upClear && gridArray[col][row+1] === 'O') {
+                //if it's the first obstacle we've encoutered, destroy it and set boolean false but still decrement so explosion doesn't extend
+                gridArray[col][row+i] = 'EO';
+                positionsToClear.push([col, row+i]);
+                // if (obstacleClearDown) {
+                    // obstacleClearDown = false;
+                // }
+            }
+
+            //---------------------LEFT---------------------->
+            if (
+                col-i >= 1
+                && gridArray[col-i][row] !== 'W'
+                && gridArray[col-i][row] !== 'O'
+            ) {
+                gridArray[col-i][row] = 'EL';
+                positionsToClear.push([col-i, row]);
+                //if it is an obstacle OR we've already encountered an obstacle in this direction
+            } else if (col-i >=1 && upClear && gridArray[col-i][row] === 'O') {
+                //if it's the first obstacle we've encoutered, destroy it and set boolean false but still decrement so explosion doesn't extend
+                gridArray[col-i][row] = 'EO';
+                positionsToClear.push([col-i, row]);
+                // if (obstacleClearDown) {
+                    // obstacleClearDown = false;
+                // }
+            }
+
+            //---------------------RIGHT---------------------->
+            if (
+                col + i <= 16
+                && gridArray[col + i][row] !== 'W'
+                && gridArray[col + i][row] !== 'O'
+            ) {
+                gridArray[col + i][row] = 'ER';
+                positionsToClear.push([col + i, row]);
+                //if it is an obstacle OR we've already encountered an obstacle in this direction
+            } else if (col + i <= 16 <= 16 && upClear && gridArray[col + i][row] === 'O') {
+                //if it's the first obstacle we've encoutered, destroy it and set boolean false but still decrement so explosion doesn't extend
+                gridArray[col + i][row] = 'EO';
+                positionsToClear.push([col + i, row]);
+                // if (obstacleClearDown) {
+                // obstacleClearDown = false;
+                // }
+            }
+        }
         setTimeout(() => {
-            this.grid.gridArray[gridCoords[0]][gridCoords[1]] = "X";
+            
+            positionsToClear.forEach(pos => {
+                this.grid.gridArray[pos[0]][pos[1]] = "X";
+            })
         }, 2000);
     }
 
@@ -47,7 +130,7 @@ class Player extends Entity {
         setTimeout(() => {
             this.bombCount++;
             this.explodeBomb(gridCoords);
-        }, 4000);
+        }, 2000);
     }
 
     handleInput (keys) {
@@ -69,7 +152,7 @@ class Player extends Entity {
         else this.velocity.x = 0;
 
         // handle bomb dropping
-        if (keys && keys.SPACE) {
+        if (keys && keys.SPACE && this.bombCount > 0) {
             this.dropBomb();
         }
     }
