@@ -16,6 +16,7 @@ const socket = io('http://localhost:3000');
 
 const Input = require('./input');
 const Player = require('./player');
+const AI = require('./ai');
 const Grid = require('./grid'); 
 const ResourceManager = require('./resourceManager');
 // const imgSources = {
@@ -117,9 +118,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     bombs.appendChild(bombIcon);
                 }
             }
+
             // ctx.rect(player.position.x + (player.size / 4), player.position.y + (player.size / 6), player.size - (player.size / 2), player.size - (player.size / 4));
             // ctx.stroke();
         });
+        // data.aiPack.forEach( ai => {
+        //     AI.render(ctx, ai, playerImg);
+        // });
 
         
     });

@@ -10,7 +10,7 @@
 }
 
 #title-div {
-    font-size: 90px;
+    font-size: 80px;
     font-family: 'PixelEmulator';
     color: rgb(230, 63, 63);
 }
@@ -87,5 +87,10 @@ ul.stats {
 
 @font-face {
     font-family: 'PixelEmulator';
-    src: url('public/assets/images/pixel_emulator.otf');
+    src: url('./assets/images/pixel_emulator.otf');
+}
+
+body {
+    background-color: burlywood;
+
 }

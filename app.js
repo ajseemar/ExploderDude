@@ -35,12 +35,15 @@ app.use('/public', express.static(__dirname + '/public'));
 const io = require('socket.io')(serv, {});
 
 const Player = require('./src/player');
+const AI = require('./src/ai');
 const Grid = require('./src/grid');
 
 const grid = new Grid();
 
 const SOCKETS = {};
 const PLAYERS = {};
+const COMPS = {1: new AI(1, grid)};
+let aiIds = [1, 2, 3];
 
 io.sockets.on('connection', (socket) => {
     SOCKETS[socket.id] = socket;
@@ -52,11 +55,18 @@ io.sockets.on('connection', (socket) => {
 
     socket.on('update', (data) => {
         const pack = [];
+        const aiPack = [];
         Object.values(PLAYERS).forEach(player => {
             player.isDead();
             pack.push(player.update(data.dt, data.pressedKeys, data.id));
+            
         })
-        socket.emit("render", {pack, grid});
+        // Object.values(COMPS).forEach(ai => {
+        //     ai.isDead();
+        //     aiPack.push(ai.update(data.dt));
+
+        // })
+        socket.emit("render", {pack, aiPack, grid});
     });
 
     socket.on('disconnect', socket => {

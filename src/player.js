@@ -17,6 +17,7 @@ class Player extends Entity {
         this.bombCount = 1;
         this.bombSize = 1;
         this.lives = 3;
+        this.type = "human";
 
         this.bbox = {
             tl: this.position.x + (this.size / 4),

@@ -1,6 +1,6 @@
 class Entity {
     constructor(size) {
-        this.size = size;
+        this.size = size; 
 
         this.width = size;
         this.height = size;
