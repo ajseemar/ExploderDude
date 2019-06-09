@@ -1,6 +1,18 @@
 import io from 'socket.io-client';
+import openSocket from "socket.io-client";
 
 const socket = io('http://localhost:3000');
+
+// ---------------------------------------------------->
+//                     Client
+// const production = "https://exploder-dude.herokuapp.com";
+// const development = "http://localhost:3000/";
+// export const url =
+//     process.env.NODE_ENV === "development" ? development : production;
+// export const socket = openSocket(url);
+//
+// ---------------------------------------------------->
+
 
 const Input = require('./input');
 const Player = require('./player');
@@ -75,10 +87,37 @@ document.addEventListener('DOMContentLoaded', () => {
         Grid.render(ctx, data.grid, grassImg, wallImg, crateImg, bombImg, explosionImg, itemsImg);
         data.pack.forEach(player => {
             Player.render(ctx, player, playerImg);
-            ctx.strokeStyle = "#ed6bff";
+            if (socket.id === player.id) {
+                let lives = document.getElementById('lives');
+                let bombs = document.getElementById('bombs');
+
+                while (lives.firstChild) {
+                    lives.removeChild(lives.firstChild);
+                }
+
+                while (bombs.firstChild) {
+                    bombs.removeChild(bombs.firstChild);
+                }
+                for (let i = 0; i < player.lives; i++) {
+                    let heartIcon = document.createElement("IMG");
+                    heartIcon.setAttribute("src", "https://raw.githubusercontent.com/camcarter131/MERN_stack_project/master/frontend/public/heart.png");
+                    heartIcon.setAttribute("width", "48");
+                    heartIcon.setAttribute("height", "48");
+                    lives.appendChild(heartIcon);
+                }
+                for (let j = 0; j < player.bombCount; j++) {
+                    let bombIcon = document.createElement("IMG");
+                    bombIcon.setAttribute("src", "https://raw.githubusercontent.com/camcarter131/MERN_stack_project/master/frontend/public/bomb.png");
+                    bombIcon.setAttribute("width", "48");
+                    bombIcon.setAttribute("height", "48");
+                    bombs.appendChild(bombIcon);
+                }
+            }
             // ctx.rect(player.position.x + (player.size / 4), player.position.y + (player.size / 6), player.size - (player.size / 2), player.size - (player.size / 4));
             // ctx.stroke();
         });
+
+        
     });
 });
 
