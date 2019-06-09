@@ -28,27 +28,29 @@ const ResourceManager = require('./resourceManager');
 //     'wall': '../public/assets/images/wall.png'
 // };
 
-// LOAD IMAGES
+//-------------------------LOAD IMAGES------------------------->
 
 const playerImg = new Image();
 const bombImg = new Image();
 const grassImg = new Image();
 const crateImg = new Image();
 const explosionImg = new Image();
+const explosionUpDownImg = new Image();
 const wallImg = new Image();
 const heartImg = new Image();
 const itemsImg = new Image();
 
-playerImg.src = "https://raw.githubusercontent.com/camcarter131/MERN_stack_project/master/frontend/public/assets/images/df_bomber_ss.png";
-grassImg.src = "https://raw.githubusercontent.com/camcarter131/MERN_stack_project/master/frontend/public/assets/images/grass.png";
-wallImg.src = "https://raw.githubusercontent.com/camcarter131/MERN_stack_project/master/frontend/public/assets/images/crates.png";
-crateImg.src = "https://raw.githubusercontent.com/camcarter131/MERN_stack_project/master/frontend/public/assets/images/crates_real.png";
-bombImg.src = "https://raw.githubusercontent.com/camcarter131/MERN_stack_project/master/frontend/public/bomb.png";
-explosionImg.src = "https://raw.githubusercontent.com/camcarter131/MERN_stack_project/master/frontend/public/explosion.png";
-heartImg.src = "https://raw.githubusercontent.com/camcarter131/MERN_stack_project/master/frontend/public/heart.png";
-itemsImg.src = "https://i.pinimg.com/originals/44/7a/07/447a078952a30cad0d3ee4a0c6832613.png";
+playerImg.src = "https://raw.githubusercontent.com/ajseemar/ExploderDude/lobby/public/assets/images/player.png";
+grassImg.src = "https://raw.githubusercontent.com/ajseemar/ExploderDude/lobby/public/assets/images/grass.png";
+wallImg.src = "https://raw.githubusercontent.com/ajseemar/ExploderDude/lobby/public/assets/images/wall.png";
+crateImg.src = "https://raw.githubusercontent.com/ajseemar/ExploderDude/lobby/public/assets/images/crates.png";
+bombImg.src = "https://raw.githubusercontent.com/ajseemar/ExploderDude/lobby/public/assets/images/bomb.png";
+explosionImg.src = "https://raw.githubusercontent.com/ajseemar/ExploderDude/lobby/public/assets/images/explosion.png";
+explosionUpDownImg.src = "https://raw.githubusercontent.com/ajseemar/ExploderDude/bombs/public/assets/images/explosionUpDown.png";
+heartImg.src = "https://raw.githubusercontent.com/ajseemar/ExploderDude/lobby/public/assets/images/heart.png";
+itemsImg.src = "https://raw.githubusercontent.com/ajseemar/ExploderDude/bombs/public/assets/images/items.png";
 
-//----------------------->
+//------------------------------------------------------------->
 
 var gp;
 
@@ -84,7 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     socket.on('render', (data) => {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        Grid.render(ctx, data.grid, grassImg, wallImg, crateImg, bombImg, explosionImg, itemsImg);
+        Grid.render(ctx, data.grid, grassImg, wallImg, crateImg, bombImg, explosionImg, explosionUpDownImg, itemsImg);
         data.pack.forEach(player => {
             Player.render(ctx, player, playerImg);
             if (socket.id === player.id) {
