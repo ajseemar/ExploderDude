@@ -15,7 +15,7 @@ class Player extends Entity {
         this.position = this.positions[Math.floor(Math.random() * this.positions.length)];
         this.speed = 150;
         this.bombCount = 1;
-        this.bombSize = 1;
+        this.bombSize = 2;
         this.lives = 3;
         this.type = "human";
 
@@ -38,8 +38,11 @@ class Player extends Entity {
 
     explodeBomb (center) {
         let gridArray = this.grid.gridArray;
-        this.grid.gridArray[center[0]][center[1]] = "EC";
+        this.grid.gridArray[center[0]][center[1]] = "EC1";
+        
         let positionsToClear = [center];
+        let numAnimations = 7;
+        let explosionTime = 1000;
         let col = center[0];
         let row = center[1];
 
@@ -54,9 +57,9 @@ class Player extends Entity {
                 gridArray[col][row-i] = 'EU';
                 positionsToClear.push([col, row-i]);
                 //if it is an obstacle OR we've already encountered an obstacle in this direction
-            } else if (row - i >= 1 && gridArray[col][row-i] === 'O') {
+            } else if (row - i >= 1 && gridArray[col][row-i].type === 'obstacle') {
                 //if it's the first obstacle we've encountered, destroy it and set boolean false but still decrement so explosion doesn't extend
-                debugger
+                delete this.grid.collidables[[col,row-i]];
                 gridArray[col][row-i] = 'EO';
                 positionsToClear.push([col, row - i]);
                 // if (obstacleClearUp) {
@@ -73,8 +76,9 @@ class Player extends Entity {
                 gridArray[col][row+i] = 'ED';
                 positionsToClear.push([col, row+i]);
                 //if it is an obstacle OR we've already encountered an obstacle in this direction
-            } else if (row+i <= 16 && gridArray[col][row+1] === 'O') {
+            } else if (row+i <= 16 && gridArray[col][row+i].type === 'obstacle') {
                 //if it's the first obstacle we've encountered, destroy it and set boolean false but still decrement so explosion doesn't extend
+                delete this.grid.collidables[[col, row + i]];
                 gridArray[col][row+i] = 'EO';
                 positionsToClear.push([col, row+i]);
                 // if (obstacleClearDown) {
@@ -91,8 +95,9 @@ class Player extends Entity {
                 gridArray[col-i][row] = 'EL';
                 positionsToClear.push([col-i, row]);
                 //if it is an obstacle OR we've already encountered an obstacle in this direction
-            } else if (col-i >=1 && gridArray[col-i][row] === 'O') {
+            } else if (col-i >=1 && gridArray[col-i][row].type === 'obstacle') {
                 //if it's the first obstacle we've encoutered, destroy it and set boolean false but still decrement so explosion doesn't extend
+                delete this.grid.collidables[[col-i, row]];
                 gridArray[col-i][row] = 'EO';
                 positionsToClear.push([col-i, row]);
                 // if (obstacleClearDown) {
@@ -109,8 +114,9 @@ class Player extends Entity {
                 gridArray[col + i][row] = 'ER';
                 positionsToClear.push([col + i, row]);
                 //if it is an obstacle OR we've already encountered an obstacle in this direction
-            } else if (col + i <= 16 && gridArray[col + i][row] === 'O') {
+            } else if (col + i <= 16 && gridArray[col + i][row].type === 'obstacle') {
                 //if it's the first obstacle we've encoutered, destroy it and set boolean false but still decrement so explosion doesn't extend
+                delete this.grid.collidables[[col+i, row]];
                 gridArray[col + i][row] = 'EO';
                 positionsToClear.push([col + i, row]);
                 // if (obstacleClearDown) {
@@ -118,8 +124,21 @@ class Player extends Entity {
                 // }
             }
         }
+
+        const explosionAnimation = iter => {
+            if (iter < numAnimations+1) {
+                this.grid.gridArray[center[0]][center[1]] = "EC" + iter.toString();
+                setTimeout( () => {
+                    explosionAnimation(iter+1);
+                }, explosionTime/numAnimations);
+            }
+        }
+
         setTimeout(() => {
-            
+            explosionAnimation(2);
+        }, explosionTime/numAnimations);
+
+        setTimeout(() => { 
             positionsToClear.forEach(pos => {
                 if (this.grid.gridArray[pos[0]][pos[1]] != "EO") {
                     this.grid.gridArray[pos[0]][pos[1]] = "X";
@@ -127,7 +146,7 @@ class Player extends Entity {
                     this.grid.gridArray[pos[0]][pos[1]] = "I";
                 }
             })
-        }, 2000);
+        }, explosionTime);
     }
 
     dropBomb () {
@@ -165,7 +184,7 @@ class Player extends Entity {
     }
 
     handleCollisions () {
-        this.grid.collidables.filter(collidable =>
+        Object.values(this.grid.collidables).filter(collidable =>
             CollisionDetector.detectCollision(this, collidable)
         ).forEach(collision => CollisionDetector.resolveCollision(this, collision));
     }
