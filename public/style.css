@@ -11,7 +11,7 @@
 
 #title-div {
     font-size: 90px;
-    font-family: Pixel Emulator;
+    font-family: 'PixelEmulator';
     color: rgb(230, 63, 63);
 }
 
@@ -46,7 +46,7 @@
 
 h1.title {
     font-size: 38px;
-    font-family: Pixel Emulator;
+    font-family: 'PixelEmulator';
     color: rgb(0, 0, 0);
 }
 
@@ -77,10 +77,15 @@ img#space {
 
 p {
     font-size: 18px;
-    font-family: Pixel Emulator;
+    font-family: 'PixelEmulator';
     color: rgb(0, 0, 0);
 }
 
 ul.stats {
     padding: 0px;
+}
+
+@font-face {
+    font-family: 'PixelEmulator';
+    src: url('public/assets/images/pixel_emulator.otf');
 }
