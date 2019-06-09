@@ -16,6 +16,7 @@ class Player extends Entity {
         this.speed = 150;
         this.bombCount = 1;
         this.bombSize = 1;
+        this.lives = 3;
 
         this.bbox = {
             tl: this.position.x + (this.size / 4),
@@ -178,7 +179,7 @@ class Player extends Entity {
             // this.updateBBox();
             this.handleCollisions();
         }
-        return { position: this.position, size: this.size /*grid: this.grid /* , bbox: this.bbox */};
+        return { position: this.position, size: this.size, lives: this.lives, bombCount: this.bombCount, id: this.id /*bbox: this.bbox */};
     }
 
     isDead () {
@@ -190,10 +191,43 @@ class Player extends Entity {
             this.grid.gridArray[gridCoords[0]][gridCoords[1]] === "EL" ||  
             this.grid.gridArray[gridCoords[0]][gridCoords[1]] === "ER" 
         ) {
-            this.position.x = 48;
-            this.position.y = 48;
+            this.lives--;
+            if (this.lives > 0) {
+                this.position.x = 48;
+                this.position.y = 48;
+            } else {
+                //game over
+            }
+
         }
     }
+
+    // statsChange() {
+    //     let lives = document.getElementById('lives');
+    //     while (lives.firstChild) {
+    //         lives.removeChild(lives.firstChild);
+    //     }
+
+    //     let bombs = document.getElementById('bombs');
+    //     while (bombs.firstChild) {
+    //         bombs.removeChild(bombs.firstChild);
+    //     }
+
+    //     for (let i = 0; i < this.lives; i++) {
+    //         let heartIcon = document.createElement("IMG");
+    //         heartIcon.setAttribute("src", "heart.png");
+    //         heartIcon.setAttribute("width", "48");
+    //         heartIcon.setAttribute("height", "48");
+    //         document.getElementById('lives').appendChild(heartIcon);
+    //     }
+    //     for (let j = 0; j < this.bombs.bombQueue.length; j++) {
+    //         let bombIcon = document.createElement("IMG");
+    //         bombIcon.setAttribute("src", "bomb.png");
+    //         bombIcon.setAttribute("width", "48");
+    //         bombIcon.setAttribute("height", "48");
+    //         document.getElementById('bombs').appendChild(bombIcon);
+    //     }
+    // }
 
     static render (ctx, player, img) {
         // ctx.rect(player.bbox.tl, player.bbox.tr, player.bbox.bl - player.bbox.br, player.bbox.tl- player.bbox.tr);

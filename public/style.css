@@ -80,3 +80,7 @@ p {
     font-family: Pixel Emulator;
     color: rgb(0, 0, 0);
 }
+
+ul.stats {
+    padding: 0px;
+}
