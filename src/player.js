@@ -178,11 +178,11 @@ class Player extends Entity {
             // this.updateBBox();
             this.handleCollisions();
         }
-        return { position: this.position, size: this.size, grid: this.grid /* , bbox: this.bbox */};
+        return { position: this.position, size: this.size /*grid: this.grid /* , bbox: this.bbox */};
     }
 
     isDead () {
-        let gridCoords = [Math.floor(this.position.x / 48), Math.floor(this.position.y / 48)];
+        let gridCoords = [Math.floor((this.position.x+24) / 48), Math.floor((this.position.y+24) / 48)];
         if (
             this.grid.gridArray[gridCoords[0]][gridCoords[1]] === "EC" ||  
             this.grid.gridArray[gridCoords[0]][gridCoords[1]] === "EU" ||  

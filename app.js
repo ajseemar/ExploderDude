@@ -31,7 +31,7 @@ io.sockets.on('connection', (socket) => {
     socket.on('update', (data) => {
         const pack = [];
         Object.values(PLAYERS).forEach(player => {
-            // player.isDead();
+            player.isDead();
             pack.push(player.update(data.dt, data.pressedKeys, data.id));
         })
         socket.emit("render", {pack, grid});
