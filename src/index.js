@@ -34,7 +34,7 @@ crateImg.src = "https://raw.githubusercontent.com/ajseemar/ExploderDude/lobby/pu
 bombImg.src = "https://raw.githubusercontent.com/ajseemar/ExploderDude/lobby/public/assets/images/bomb.png";
 explosionImg.src = "https://raw.githubusercontent.com/ajseemar/ExploderDude/lobby/public/assets/images/explosion.png";
 heartImg.src = "https://raw.githubusercontent.com/ajseemar/ExploderDude/lobby/public/assets/images/heart.png";
-itemsImg.src = "https://i.pinimg.com/originals/44/7a/07/447a078952a30cad0d3ee4a0c6832613.png";
+itemsImg.src = "https://raw.githubusercontent.com/ajseemar/ExploderDude/bombs/public/assets/images/items.png";
 
 //------------------------------------------------------------->
 
