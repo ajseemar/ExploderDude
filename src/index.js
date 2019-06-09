@@ -35,7 +35,7 @@ const bombImg = new Image();
 const grassImg = new Image();
 const crateImg = new Image();
 const explosionImg = new Image();
-const explosionUpDownImg = new Image();
+const explosionUpImg = new Image();
 const wallImg = new Image();
 const heartImg = new Image();
 const itemsImg = new Image();
@@ -46,7 +46,7 @@ wallImg.src = "https://raw.githubusercontent.com/ajseemar/ExploderDude/lobby/pub
 crateImg.src = "https://raw.githubusercontent.com/ajseemar/ExploderDude/lobby/public/assets/images/crates.png";
 bombImg.src = "https://raw.githubusercontent.com/ajseemar/ExploderDude/lobby/public/assets/images/bomb.png";
 explosionImg.src = "https://raw.githubusercontent.com/ajseemar/ExploderDude/lobby/public/assets/images/explosion.png";
-explosionUpImg.src = "https://raw.githubusercontent.com/ajseemar/ExploderDude/bombs/public/assets/images/explosionUp.png";
+explosionUpImg.src = "https://raw.githubusercontent.com/ajseemar/ExploderDude/master/public/assets/images/explosionUp.png";
 heartImg.src = "https://raw.githubusercontent.com/ajseemar/ExploderDude/lobby/public/assets/images/heart.png";
 itemsImg.src = "https://raw.githubusercontent.com/ajseemar/ExploderDude/bombs/public/assets/images/items.png";
 
