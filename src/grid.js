@@ -110,6 +110,11 @@ class Grid {
                             ctx.drawImage(grassImg, 0, 0, grassImg.width, grassImg.height, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
                             ctx.drawImage(explosionImg, 0, 0, explosionImg.width, explosionImg.height, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
                             break;
+                        //item
+                        case "I":
+                            ctx.drawImage(grassImg, 0, 0, grassImg.width, grassImg.height, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
+                            ctx.drawImage(itemsImg, 0, 0, itemsImg.width/5, itemsImg.height/2, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
+                            break;
                         // case "W":
                         //     ctx.drawImage(wallImg, 0, 0, wallImg.width, wallImg.height, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
                         //     break;

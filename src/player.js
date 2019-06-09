@@ -45,15 +45,16 @@ class Player extends Entity {
 
             //---------------------UP---------------------->
             if (
-                row - i <= 16
-                && gridArray[col][row-i] !== 'W'
-                && gridArray[col][row-i] !== 'O'
+                row - i >= 1
+                && gridArray[col][row-i].type !== "wall"
+                && gridArray[col][row-i].type !== "obstacle"
             ) {
                 gridArray[col][row-i] = 'EU';
                 positionsToClear.push([col, row-i]);
                 //if it is an obstacle OR we've already encountered an obstacle in this direction
-            } else if (row - i <= 16 && upClear && gridArray[col][row-i] === 'O') {
+            } else if (row - i >= 1 && gridArray[col][row-i] === 'O') {
                 //if it's the first obstacle we've encountered, destroy it and set boolean false but still decrement so explosion doesn't extend
+                debugger
                 gridArray[col][row-i] = 'EO';
                 positionsToClear.push([col, row - i]);
                 // if (obstacleClearUp) {
@@ -64,14 +65,14 @@ class Player extends Entity {
             //---------------------DOWN---------------------->
             if (
                 row+i <= 16
-                && gridArray[col][row+i] !== 'W'
-                && gridArray[col][row+i] !== 'O'
+                && gridArray[col][row + i].type !== "wall"
+                && gridArray[col][row + i].type !== "obstacle"
             ) {
                 gridArray[col][row+i] = 'ED';
                 positionsToClear.push([col, row+i]);
                 //if it is an obstacle OR we've already encountered an obstacle in this direction
-            } else if (row+i <= 16 && upClear && gridArray[col][row+1] === 'O') {
-                //if it's the first obstacle we've encoutered, destroy it and set boolean false but still decrement so explosion doesn't extend
+            } else if (row+i <= 16 && gridArray[col][row+1] === 'O') {
+                //if it's the first obstacle we've encountered, destroy it and set boolean false but still decrement so explosion doesn't extend
                 gridArray[col][row+i] = 'EO';
                 positionsToClear.push([col, row+i]);
                 // if (obstacleClearDown) {
@@ -82,13 +83,13 @@ class Player extends Entity {
             //---------------------LEFT---------------------->
             if (
                 col-i >= 1
-                && gridArray[col-i][row] !== 'W'
-                && gridArray[col-i][row] !== 'O'
+                && gridArray[col - i][row].type !== "wall"
+                && gridArray[col - i][row].type !== "obstacle"
             ) {
                 gridArray[col-i][row] = 'EL';
                 positionsToClear.push([col-i, row]);
                 //if it is an obstacle OR we've already encountered an obstacle in this direction
-            } else if (col-i >=1 && upClear && gridArray[col-i][row] === 'O') {
+            } else if (col-i >=1 && gridArray[col-i][row] === 'O') {
                 //if it's the first obstacle we've encoutered, destroy it and set boolean false but still decrement so explosion doesn't extend
                 gridArray[col-i][row] = 'EO';
                 positionsToClear.push([col-i, row]);
@@ -100,13 +101,13 @@ class Player extends Entity {
             //---------------------RIGHT---------------------->
             if (
                 col + i <= 16
-                && gridArray[col + i][row] !== 'W'
-                && gridArray[col + i][row] !== 'O'
+                && gridArray[col + i][row].type !== "wall"
+                && gridArray[col + i][row].type !== "obstacle"
             ) {
                 gridArray[col + i][row] = 'ER';
                 positionsToClear.push([col + i, row]);
                 //if it is an obstacle OR we've already encountered an obstacle in this direction
-            } else if (col + i <= 16 <= 16 && upClear && gridArray[col + i][row] === 'O') {
+            } else if (col + i <= 16 && gridArray[col + i][row] === 'O') {
                 //if it's the first obstacle we've encoutered, destroy it and set boolean false but still decrement so explosion doesn't extend
                 gridArray[col + i][row] = 'EO';
                 positionsToClear.push([col + i, row]);
@@ -118,7 +119,11 @@ class Player extends Entity {
         setTimeout(() => {
             
             positionsToClear.forEach(pos => {
-                this.grid.gridArray[pos[0]][pos[1]] = "X";
+                if (this.grid.gridArray[pos[0]][pos[1]] != "EO") {
+                    this.grid.gridArray[pos[0]][pos[1]] = "X";
+                } else {
+                    this.grid.gridArray[pos[0]][pos[1]] = "I";
+                }
             })
         }, 2000);
     }
@@ -173,7 +178,21 @@ class Player extends Entity {
             // this.updateBBox();
             this.handleCollisions();
         }
-        return { position: this.position, size: this.size /* , bbox: this.bbox */};
+        return { position: this.position, size: this.size /*grid: this.grid /* , bbox: this.bbox */};
+    }
+
+    isDead () {
+        let gridCoords = [Math.floor((this.position.x+24) / 48), Math.floor((this.position.y+24) / 48)];
+        if (
+            this.grid.gridArray[gridCoords[0]][gridCoords[1]] === "EC" ||  
+            this.grid.gridArray[gridCoords[0]][gridCoords[1]] === "EU" ||  
+            this.grid.gridArray[gridCoords[0]][gridCoords[1]] === "ED" ||  
+            this.grid.gridArray[gridCoords[0]][gridCoords[1]] === "EL" ||  
+            this.grid.gridArray[gridCoords[0]][gridCoords[1]] === "ER" 
+        ) {
+            this.position.x = 48;
+            this.position.y = 48;
+        }
     }
 
     static render (ctx, player, img) {
