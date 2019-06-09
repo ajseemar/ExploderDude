@@ -23,6 +23,7 @@ const bombImg = new Image();
 const grassImg = new Image();
 const crateImg = new Image();
 const explosionImg = new Image();
+const explosionUpDownImg = new Image();
 const wallImg = new Image();
 const heartImg = new Image();
 const itemsImg = new Image();
@@ -33,6 +34,7 @@ wallImg.src = "https://raw.githubusercontent.com/ajseemar/ExploderDude/lobby/pub
 crateImg.src = "https://raw.githubusercontent.com/ajseemar/ExploderDude/lobby/public/assets/images/crates.png";
 bombImg.src = "https://raw.githubusercontent.com/ajseemar/ExploderDude/lobby/public/assets/images/bomb.png";
 explosionImg.src = "https://raw.githubusercontent.com/ajseemar/ExploderDude/lobby/public/assets/images/explosion.png";
+explosionUpDownImg.src = "https://raw.githubusercontent.com/ajseemar/ExploderDude/bombs/public/assets/images/explosionUpDown.png";
 heartImg.src = "https://raw.githubusercontent.com/ajseemar/ExploderDude/lobby/public/assets/images/heart.png";
 itemsImg.src = "https://raw.githubusercontent.com/ajseemar/ExploderDude/bombs/public/assets/images/items.png";
 
@@ -72,7 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     socket.on('render', (data) => {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        Grid.render(ctx, data.grid, grassImg, wallImg, crateImg, bombImg, explosionImg, itemsImg);
+        Grid.render(ctx, data.grid, grassImg, wallImg, crateImg, bombImg, explosionImg, explosionUpDownImg, itemsImg);
         data.pack.forEach(player => {
             Player.render(ctx, player, playerImg);
             if (socket.id === player.id) {
