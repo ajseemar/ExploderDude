@@ -46,7 +46,7 @@ wallImg.src = "https://raw.githubusercontent.com/ajseemar/ExploderDude/lobby/pub
 crateImg.src = "https://raw.githubusercontent.com/ajseemar/ExploderDude/lobby/public/assets/images/crates.png";
 bombImg.src = "https://raw.githubusercontent.com/ajseemar/ExploderDude/lobby/public/assets/images/bomb.png";
 explosionImg.src = "https://raw.githubusercontent.com/ajseemar/ExploderDude/lobby/public/assets/images/explosion.png";
-explosionUpDownImg.src = "https://raw.githubusercontent.com/ajseemar/ExploderDude/bombs/public/assets/images/explosionUpDown.png";
+explosionUpImg.src = "https://raw.githubusercontent.com/ajseemar/ExploderDude/bombs/public/assets/images/explosionUp.png";
 heartImg.src = "https://raw.githubusercontent.com/ajseemar/ExploderDude/lobby/public/assets/images/heart.png";
 itemsImg.src = "https://raw.githubusercontent.com/ajseemar/ExploderDude/bombs/public/assets/images/items.png";
 
@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     socket.on('render', (data) => {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        Grid.render(ctx, data.grid, grassImg, wallImg, crateImg, bombImg, explosionImg, explosionUpDownImg, itemsImg);
+        Grid.render(ctx, data.grid, grassImg, wallImg, crateImg, bombImg, explosionImg, explosionUpImg, itemsImg);
         data.pack.forEach(player => {
             Player.render(ctx, player, playerImg);
             if (socket.id === player.id) {

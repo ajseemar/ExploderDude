@@ -61,7 +61,7 @@ class Grid {
         }
     }
 
-    static render(ctx, grid, grassImg, wallImg, crateImg, bombImg, explosionImg, explosionUpDownImg, itemsImg) {
+    static render(ctx, grid, grassImg, wallImg, crateImg, bombImg, explosionImg, explosionUpImg, itemsImg) {
         grid.gridArray.forEach((col, x) => {
             col.forEach((el, y) => {
                 let canvasCoords = [48 * x, 48 * y];
@@ -88,7 +88,7 @@ class Grid {
                         //explode up
                         case "EU":                          
                             ctx.drawImage(grassImg, 0, 0, grassImg.width, grassImg.height, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
-                            ctx.drawImage(explosionUpDownImg, 0, explosionUpDownImg.height-(explosionUpDownImg.height/7)+1, explosionUpDownImg.width/2, (explosionUpDownImg.height/7) -1, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize);                           
+                            ctx.drawImage(explosionUpImg, 0, explosionUpImg.height-(explosionUpImg.height/7)+1, explosionUpImg.width/2, (explosionUpImg.height/7) -1, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize);                           
                             break;
                         //explode down
                         case "ED":
