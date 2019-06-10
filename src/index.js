@@ -1,16 +1,17 @@
 import io from 'socket.io-client';
-import openSocket from "socket.io-client";
+// import openSocket from "socket.io-client";
 
 // const socket = io('http://localhost:3000');
+// const socket = io('https://exploder-dude.herokuapp.com');
 
 // ---------------------------------------------------->
 //                     Client
 const production = "https://exploder-dude.herokuapp.com";
 const development = "http://localhost:3000/";
-// export const url =
-//     process.env.NODE_ENV === "development" ? development : production;
+export const url =
+    process.env.NODE_ENV === "development" ? development : production;
 export const url = production;
-export const socket = openSocket(url);
+export const socket = io(url);
 //
 // ---------------------------------------------------->
 
