@@ -7,8 +7,9 @@ import openSocket from "socket.io-client";
 //                     Client
 const production = "https://exploder-dude.herokuapp.com";
 const development = "http://localhost:3000/";
-export const url =
-    process.env.NODE_ENV === "development" ? development : production;
+// export const url =
+//     process.env.NODE_ENV === "development" ? development : production;
+export const url = production;
 export const socket = openSocket(url);
 //
 // ---------------------------------------------------->
