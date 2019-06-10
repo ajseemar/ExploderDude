@@ -22,12 +22,14 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 if (process.env.NODE_ENV === "production") {
     app.use(express.static("public"));
+    
     app.get("/", (req, res) => {
         res.sendFile(path.resolve(__dirname, "index.html"));
     });
 } else {
     app.get("/", (req, res) => res.sendFile(__dirname + '/public/index.html'));
-    app.use('/public', express.static(__dirname + '/public'));
+    // app.use('/public', express.static(__dirname + '/public'));
+    app.use(express.static("public"));
 }
 
 // app.get("/", (req, res) => {
