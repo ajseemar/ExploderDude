@@ -83,6 +83,8 @@ img#arrows {
 
 img#space {
     width: 60%;
+    position: relative;
+    top: 45px;
 }
 
 p {
