@@ -9,11 +9,12 @@ import io from 'socket.io-client';
 const production = "https://exploder-dude.herokuapp.com/";
 const development = "http://localhost:3000/";
 console.log(process.env.NODE_ENV);
+console.log(production);
 export const url =
     process.env.NODE_ENV === "development" ? development : production;
 
 // export const url = production;
-export const socket = io(url);
+export const socket = io(production);
 //
 // ---------------------------------------------------->
 
