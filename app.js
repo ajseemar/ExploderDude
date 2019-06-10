@@ -63,7 +63,6 @@ io.sockets.on('connection', (socket) => {
     if (counter === 2) {
         Object.values(SOCKETS).forEach(socket => socket.emit('startGame'));
         counter = 0;
-        startGame();
     };
 
     socket.on('update', (data) => {
