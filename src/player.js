@@ -60,7 +60,7 @@ class Player extends Entity {
             } else if (row - i >= 1 && gridArray[col][row-i].type === 'obstacle') {
                 //if it's the first obstacle we've encountered, destroy it and set boolean false but still decrement so explosion doesn't extend
                 delete this.grid.collidables[[col,row-i]];
-                gridArray[col][row-i] = 'EU1';
+                gridArray[col][row-i] = 'EO1';
                 positionsToClear.push([col, row - i]);
                 // if (obstacleClearUp) {
                     // obstacleClearUp = false;
@@ -79,7 +79,7 @@ class Player extends Entity {
             } else if (row+i <= 16 && gridArray[col][row+i].type === 'obstacle') {
                 //if it's the first obstacle we've encountered, destroy it and set boolean false but still decrement so explosion doesn't extend
                 delete this.grid.collidables[[col, row + i]];
-                gridArray[col][row+i] = 'ED1';
+                gridArray[col][row+i] = 'EO1';
                 positionsToClear.push([col, row+i]);
                 // if (obstacleClearDown) {
                     // obstacleClearDown = false;
@@ -98,7 +98,7 @@ class Player extends Entity {
             } else if (col-i >=1 && gridArray[col-i][row].type === 'obstacle') {
                 //if it's the first obstacle we've encoutered, destroy it and set boolean false but still decrement so explosion doesn't extend
                 delete this.grid.collidables[[col-i, row]];
-                gridArray[col-i][row] = 'EL1';
+                gridArray[col-i][row] = 'EO1';
                 positionsToClear.push([col-i, row]);
                 // if (obstacleClearDown) {
                     // obstacleClearDown = false;
@@ -117,7 +117,7 @@ class Player extends Entity {
             } else if (col + i <= 16 && gridArray[col + i][row].type === 'obstacle') {
                 //if it's the first obstacle we've encoutered, destroy it and set boolean false but still decrement so explosion doesn't extend
                 delete this.grid.collidables[[col+i, row]];
-                gridArray[col + i][row] = 'ER1';
+                gridArray[col + i][row] = 'EO1';
                 positionsToClear.push([col + i, row]);
                 // if (obstacleClearDown) {
                 // obstacleClearDown = false;
@@ -128,14 +128,7 @@ class Player extends Entity {
         const explosionAnimation = iter => {
             if (iter < numAnimations+1) {
                 positionsToClear.forEach(pos => {
-                    let len = this.grid.gridArray[pos[0]][pos[1]].length;
-                    // if (
-                    //     this.grid.gridArray[pos[0]][pos[1]].slice(0, len - 1) === "EC" || 
-                    //     this.grid.gridArray[pos[0]][pos[1]].slice(0, len - 1) === "EU" ||
-                    //     this.grid.gridArray[pos[0]][pos[1]].slice(0, len - 1) === "ED"
-                    //     ) {
-                        this.grid.gridArray[pos[0]][pos[1]] = this.grid.gridArray[pos[0]][pos[1]].slice(0, len-1) + iter.toString();
-                    // }
+                    this.grid.gridArray[pos[0]][pos[1]] = this.grid.gridArray[pos[0]][pos[1]].slice(0,-1) + iter.toString();
                 });
                 setTimeout(() => {
                     explosionAnimation(iter + 1);
@@ -149,10 +142,10 @@ class Player extends Entity {
 
         setTimeout(() => { 
             positionsToClear.forEach(pos => {
-                if (this.grid.gridArray[pos[0]][pos[1]] != "EO") {
+                if (this.grid.gridArray[pos[0]][pos[1]].slice(0,-1) != "EO") {
                     this.grid.gridArray[pos[0]][pos[1]] = "X";
                 } else {
-                    this.grid.gridArray[pos[0]][pos[1]] = "I";
+                    this.grid.gridArray[pos[0]][pos[1]] = "I" + (Math.floor(1 + 4*Math.random())).toString();
                 }
             })
         }, explosionTime);
@@ -214,11 +207,11 @@ class Player extends Entity {
     isDead () {
         let gridCoords = [Math.floor((this.position.x+24) / 48), Math.floor((this.position.y+24) / 48)];
         if (
-            this.grid.gridArray[gridCoords[0]][gridCoords[1]] === "EC" ||  
-            this.grid.gridArray[gridCoords[0]][gridCoords[1]] === "EU" ||  
-            this.grid.gridArray[gridCoords[0]][gridCoords[1]] === "ED" ||  
-            this.grid.gridArray[gridCoords[0]][gridCoords[1]] === "EL" ||  
-            this.grid.gridArray[gridCoords[0]][gridCoords[1]] === "ER" 
+            this.grid.gridArray[gridCoords[0]][gridCoords[1]].slice(0,-1) === "EC" ||  
+            this.grid.gridArray[gridCoords[0]][gridCoords[1]].slice(0, -1) === "EU" ||  
+            this.grid.gridArray[gridCoords[0]][gridCoords[1]].slice(0, -1) === "ED" ||  
+            this.grid.gridArray[gridCoords[0]][gridCoords[1]].slice(0, -1) === "EL" ||  
+            this.grid.gridArray[gridCoords[0]][gridCoords[1]].slice(0, -1) === "ER" 
         ) {
             this.lives--;
             if (this.lives > 0) {
