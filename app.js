@@ -2,12 +2,16 @@ const express = require("express");
 const path = require("path");
 const app = express();
 const serv = require('http').Server(app);
-
+const io = require('socket.io')(serv, {});
 const port = process.env.PORT || 3000;
 serv.listen(port, function () {
     console.log('Listening to port: ' + port);
 });
 
+const bodyParser = require('body-parser');
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
 
 // const io = require('socket.io')(server);
@@ -21,18 +25,17 @@ if (process.env.NODE_ENV === "production") {
     app.get("/", (req, res) => {
         res.sendFile(path.resolve(__dirname, "public", "index.html"));
     });
+} else {
+    app.get("/", (req, res) => res.sendFile(__dirname + '/index.html'));
+    app.use('/public', express.static(__dirname + '/public'));
 }
 
 // app.get("/", (req, res) => {
 //     res.sendFile(path.resolve("../frontend/public/index.html"));
 // });
 
-app.get("/", (req, res) => res.sendFile(__dirname + '/public/index.html'));
-app.use('/public', express.static(__dirname + '/public'));
 
 
-
-const io = require('socket.io')(serv, {});
 
 const Player = require('./src/player');
 const AI = require('./src/ai');
