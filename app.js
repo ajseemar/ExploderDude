@@ -26,7 +26,7 @@ if (process.env.NODE_ENV === "production") {
         res.sendFile(path.resolve(__dirname, "public", "index.html"));
     });
 } else {
-    app.get("/", (req, res) => res.sendFile(__dirname + '/index.html'));
+    app.get("/", (req, res) => res.sendFile(__dirname + '/public/index.html'));
     app.use('/public', express.static(__dirname + '/public'));
 }
 
