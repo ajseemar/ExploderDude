@@ -214,11 +214,11 @@ class Player extends Entity {
     isDead () {
         let gridCoords = [Math.floor((this.position.x+24) / 48), Math.floor((this.position.y+24) / 48)];
         if (
-            this.grid.gridArray[gridCoords[0]][gridCoords[1]] === "EC" ||  
-            this.grid.gridArray[gridCoords[0]][gridCoords[1]] === "EU" ||  
-            this.grid.gridArray[gridCoords[0]][gridCoords[1]] === "ED" ||  
-            this.grid.gridArray[gridCoords[0]][gridCoords[1]] === "EL" ||  
-            this.grid.gridArray[gridCoords[0]][gridCoords[1]] === "ER" 
+            this.grid.gridArray[gridCoords[0]][gridCoords[1]].slice(0,-1) === "EC" ||  
+            this.grid.gridArray[gridCoords[0]][gridCoords[1]].slice(0, -1) === "EU" ||  
+            this.grid.gridArray[gridCoords[0]][gridCoords[1]].slice(0, -1) === "ED" ||  
+            this.grid.gridArray[gridCoords[0]][gridCoords[1]].slice(0, -1) === "EL" ||  
+            this.grid.gridArray[gridCoords[0]][gridCoords[1]].slice(0, -1) === "ER" 
         ) {
             this.lives--;
             if (this.lives > 0) {
