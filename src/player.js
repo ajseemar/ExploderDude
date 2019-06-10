@@ -15,7 +15,7 @@ class Player extends Entity {
         this.position = this.positions[Math.floor(Math.random() * this.positions.length)];
         this.speed = 150;
         this.bombCount = 1;
-        this.bombSize = 2;
+        this.bombSize = 1;
         this.lives = 3;
         this.type = "human";
 
