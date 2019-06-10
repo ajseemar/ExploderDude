@@ -43,13 +43,17 @@ const Player = require('./src/player');
 const AI = require('./src/ai');
 const Grid = require('./src/grid');
 
-const grid = new Grid();
-
 const SOCKETS = {};
 const PLAYERS = {};
 let counter = 0;
 const COMPS = {1: new AI(1, grid)};
 let aiIds = [1, 2, 3];
+
+var grid = new Grid();
+
+const startGame = () => {
+    grid = new Grid();
+}
 
 io.sockets.on('connection', (socket) => {
     SOCKETS[socket.id] = socket;
@@ -59,6 +63,7 @@ io.sockets.on('connection', (socket) => {
     if (counter === 2) {
         Object.values(SOCKETS).forEach(socket => socket.emit('startGame'));
         counter = 0;
+        startGame();
     };
 
     socket.on('update', (data) => {

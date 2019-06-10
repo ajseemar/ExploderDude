@@ -160,7 +160,7 @@ class Player extends Entity {
             this.grid.gridArray[gridCoords[0]][gridCoords[1]] = "B";
             this.bombCount--;
             setTimeout(() => {
-                if (this.bombCount === 0) this.bombCount++;
+                this.bombCount++;
                 this.explodeBomb(gridCoords);
             }, 2000);
         }
