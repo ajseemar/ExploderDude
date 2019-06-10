@@ -49,11 +49,11 @@ let counter = 0;
 const COMPS = {1: new AI(1, grid)};
 let aiIds = [1, 2, 3];
 
-var grid = new Grid();
+const grid = new Grid();
 
-const startGame = () => {
-    grid = new Grid();
-}
+// const startGame = () => {
+//     grid = new Grid();
+// }
 
 io.sockets.on('connection', (socket) => {
     SOCKETS[socket.id] = socket;
