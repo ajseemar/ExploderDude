@@ -6,7 +6,7 @@ import io from 'socket.io-client';
 
 // ---------------------------------------------------->
 //                     Client
-const production = "https://exploder-dude.herokuapp.com";
+const production = "https://exploder-dude.herokuapp.com/";
 const development = "http://localhost:3000/";
 console.log(process.env.NODE_ENV);
 export const url =
