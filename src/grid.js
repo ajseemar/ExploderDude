@@ -57,7 +57,7 @@ class Grid {
                     || (i === 15 && j === 14) || (i === 14 && j === 15)
                     || (i === 1 && j === 14) || (i === 2 && j === 15)) continue;
                 if (this.gridArray[i][j].type === "wall") continue;
-                if (Math.random() < 0.1) {
+                if (Math.random() < 0.3) {
                     this.gridArray[i][j] = new Obstacle(j, i, this.cellSize);
                     this.collidables[[i,j]] = this.gridArray[i][j];
                 }

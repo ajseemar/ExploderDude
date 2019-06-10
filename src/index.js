@@ -103,21 +103,53 @@ document.addEventListener('DOMContentLoaded', () => {
                 while (bombs.firstChild) {
                     bombs.removeChild(bombs.firstChild);
                 }
-                for (let i = 0; i < player.lives; i++) {
+                if (player.lives <= 3) {
+                    for (let i = 0; i < player.lives; i++) {
+                        let heartIcon = document.createElement("IMG");
+                        heartIcon.setAttribute("src", "https://raw.githubusercontent.com/ajseemar/ExploderDude/bombs/public/assets/images/itemsHeart.png");
+                        heartIcon.setAttribute("width", "48");
+                        heartIcon.setAttribute("height", "48");
+                        lives.appendChild(heartIcon);
+                    }
+                } else {
                     let heartIcon = document.createElement("IMG");
-                    heartIcon.setAttribute("src", "https://raw.githubusercontent.com/camcarter131/MERN_stack_project/master/frontend/public/heart.png");
+                    heartIcon.setAttribute("src", "https://raw.githubusercontent.com/ajseemar/ExploderDude/bombs/public/assets/images/itemsHeart.png");
                     heartIcon.setAttribute("width", "48");
                     heartIcon.setAttribute("height", "48");
+                    heartIcon.setAttribute("display", "inline");
                     lives.appendChild(heartIcon);
+                    let countText = document.createElement("div");
+                    countText.setAttribute("height", "48");
+                    countText.setAttribute("width", "48");
+                    countText.setAttribute("display", "inline");
+                    countText.setAttribute("font-family", 'PixelEmulator');
+                    countText.innerHTML = `x ${player.lives}`;
+                    lives.appendChild(countText);
                 }
-                for (let j = 0; j < player.bombCount; j++) {
+                if (player.bombCount <= 3) {
+                    for (let j = 0; j < player.bombCount; j++) {
+                        let bombIcon = document.createElement("IMG");
+                        bombIcon.setAttribute("src", "https://raw.githubusercontent.com/camcarter131/MERN_stack_project/master/frontend/public/bomb.png");
+                        bombIcon.setAttribute("width", "48");
+                        bombIcon.setAttribute("height", "48");
+                        bombs.appendChild(bombIcon);
+                    }
+                } else if (player.bombCount > 3) {
                     let bombIcon = document.createElement("IMG");
                     bombIcon.setAttribute("src", "https://raw.githubusercontent.com/camcarter131/MERN_stack_project/master/frontend/public/bomb.png");
                     bombIcon.setAttribute("width", "48");
                     bombIcon.setAttribute("height", "48");
-                    bombs.appendChild(bombIcon);
-                }
-
+                    bombIcon.setAttribute("display", "inline");
+                    lives.appendChild(bombIcon);
+                    let countText = document.createElement("div");
+                    countText.setAttribute("height", "48");
+                    countText.setAttribute("width", "48");
+                    countText.setAttribute("display", "inline");
+                    countText.setAttribute("font-family", 'PixelEmulator');
+                    countText.innerHTML = `x ${player.bombCount}`;
+                    lives.appendChild(countText);
+                } 
+                
                 if (player.bombCount === 0) {
                     let bombIcon = document.createElement("IMG");
                     bombIcon.setAttribute("src", "");

@@ -16,6 +16,7 @@ class Player extends Entity {
         this.speed = 150;
         this.bombCount = 1;
         this.bombSize = 1;
+        this.canDropBomb = true;
         this.lives = 3;
         this.type = "human";
 
@@ -152,13 +153,17 @@ class Player extends Entity {
     }
 
     dropBomb () {
-        let gridCoords = [Math.floor((this.position.x + 24) / 48), Math.floor((this.position.y + 24) / 48)];
-        this.grid.gridArray[gridCoords[0]][gridCoords[1]] = "B";
-        this.bombCount--;
-        setTimeout(() => {
-            if (this.bombCount === 0) this.bombCount++;
-            this.explodeBomb(gridCoords);
-        }, 2000);
+        if (this.canDropBomb) {
+            this.canDropBomb = false;
+            setTimeout(() => this.canDropBomb = true, 100);
+            let gridCoords = [Math.floor((this.position.x + 24) / 48), Math.floor((this.position.y + 24) / 48)];
+            this.grid.gridArray[gridCoords[0]][gridCoords[1]] = "B";
+            this.bombCount--;
+            setTimeout(() => {
+                if (this.bombCount === 0) this.bombCount++;
+                this.explodeBomb(gridCoords);
+            }, 2000);
+        }
     }
 
     handleInput (keys) {
