@@ -57,7 +57,8 @@ io.sockets.on('connection', (socket) => {
         const pack = [];
         const aiPack = [];
         Object.values(PLAYERS).forEach(player => {
-            player.isDead();
+            player.isDead(); 
+            player.pickUpItem();
             pack.push(player.update(data.dt, data.pressedKeys, data.id));
             
         })

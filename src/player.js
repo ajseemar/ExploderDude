@@ -156,7 +156,7 @@ class Player extends Entity {
         this.grid.gridArray[gridCoords[0]][gridCoords[1]] = "B";
         this.bombCount--;
         setTimeout(() => {
-            this.bombCount++;
+            if (this.bombCount === 0) this.bombCount++;
             this.explodeBomb(gridCoords);
         }, 2000);
     }
@@ -224,35 +224,26 @@ class Player extends Entity {
         }
     }
 
-    // statsChange() {
-    //     let lives = document.getElementById('lives');
-    //     while (lives.firstChild) {
-    //         lives.removeChild(lives.firstChild);
-    //     }
-
-    //     let bombs = document.getElementById('bombs');
-    //     while (bombs.firstChild) {
-    //         bombs.removeChild(bombs.firstChild);
-    //     }
-
-    //     for (let i = 0; i < this.lives; i++) {
-    //         let heartIcon = document.createElement("IMG");
-    //         heartIcon.setAttribute("src", "heart.png");
-    //         heartIcon.setAttribute("width", "48");
-    //         heartIcon.setAttribute("height", "48");
-    //         document.getElementById('lives').appendChild(heartIcon);
-    //     }
-    //     for (let j = 0; j < this.bombs.bombQueue.length; j++) {
-    //         let bombIcon = document.createElement("IMG");
-    //         bombIcon.setAttribute("src", "bomb.png");
-    //         bombIcon.setAttribute("width", "48");
-    //         bombIcon.setAttribute("height", "48");
-    //         document.getElementById('bombs').appendChild(bombIcon);
-    //     }
-    // }
+    pickUpItem() {
+        let gridCoords = [Math.floor((this.position.x + 24) / 48), Math.floor((this.position.y + 24) / 48)];
+        if (this.grid.gridArray[gridCoords[0]][gridCoords[1]] === "I1") {
+            this.grid.gridArray[gridCoords[0]][gridCoords[1]] = "X";
+            this.bombCount++;
+        } else if (this.grid.gridArray[gridCoords[0]][gridCoords[1]] === "I2") {
+            this.grid.gridArray[gridCoords[0]][gridCoords[1]] = "X";
+            this.speed *= 2;
+            setTimeout(() => this.speed /= 2, 5000);
+        } else if (this.grid.gridArray[gridCoords[0]][gridCoords[1]] === "I3") {
+            this.grid.gridArray[gridCoords[0]][gridCoords[1]] = "X";
+            this.bombSize++;
+            setTimeout(() => this.bombSize--, 5000);
+        } else if (this.grid.gridArray[gridCoords[0]][gridCoords[1]] === "I4") {
+            this.grid.gridArray[gridCoords[0]][gridCoords[1]] = "X";
+            this.lives++;
+        }
+    }
 
     static render (ctx, player, img) {
-        // ctx.rect(player.bbox.tl, player.bbox.tr, player.bbox.bl - player.bbox.br, player.bbox.tl- player.bbox.tr);
         ctx.drawImage(img, 0, 0, 32, 32, player.position.x, player.position.y, player.size, player.size);
     }
 }

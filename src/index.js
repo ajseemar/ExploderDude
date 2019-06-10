@@ -117,6 +117,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     bombIcon.setAttribute("height", "48");
                     bombs.appendChild(bombIcon);
                 }
+
+                if (player.bombCount === 0) {
+                    let bombIcon = document.createElement("IMG");
+                    bombIcon.setAttribute("src", "");
+                    bombIcon.setAttribute("width", "0");
+                    bombIcon.setAttribute("height", "48");
+                    bombs.appendChild(bombIcon);
+                }
             }
 
             // ctx.rect(player.position.x + (player.size / 4), player.position.y + (player.size / 6), player.size - (player.size / 2), player.size - (player.size / 4));
