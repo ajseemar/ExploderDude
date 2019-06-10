@@ -7,7 +7,7 @@ class Grid {
         this.playableGridSize = this.gridSize - 2;
         this.gridArray = [...Array(this.gridSize)].map(e => ["X", "X", "X", "X", "X", "X", "X", "X", "X", "X", "X", "X", "X", "X", "X", "X", "X"]);
         this.cellSize = 816 / this.gridSize;
-        this.collidables = [];
+        this.collidables = {};
         this.createWalls();
         this.createObstacles();
 
@@ -21,8 +21,10 @@ class Grid {
             // this.gridArray[col][rowBottom] = "W";
             this.gridArray[col][rowTop] = new Wall(col, rowTop, this.cellSize);
             this.gridArray[col][rowBottom] = new Wall(col, rowBottom, this.cellSize);
-            this.collidables.push(this.gridArray[col][rowTop]);
-            this.collidables.push(this.gridArray[col][rowBottom]);
+            // this.collidables.push(this.gridArray[col][rowTop]);
+            // this.collidables.push(this.gridArray[col][rowBottom]);
+            this.collidables[[col,rowTop]] = this.gridArray[col][rowTop];
+            this.collidables[[col,rowBottom]] = this.gridArray[col][rowBottom];
         }
         let colLeft = 0;
         let colRight = this.gridSize - 1;
@@ -31,14 +33,17 @@ class Grid {
             // this.gridArray[colRight][row] = "W";
             this.gridArray[colLeft][row] = new Wall(colLeft, row, this.cellSize);
             this.gridArray[colRight][row] = new Wall(colRight, row, this.cellSize);
-            this.collidables.push(this.gridArray[colLeft][row]);
-            this.collidables.push(this.gridArray[colRight][row]);
+            // this.collidables.push(this.gridArray[colLeft][row]);
+            // this.collidables.push(this.gridArray[colRight][row]);
+            this.collidables[[colLeft,row]] = this.gridArray[colLeft][row];
+            this.collidables[[colRight,row]] = this.gridArray[colRight][row];
         }
         for (let i = 2; i < this.gridArray[0].length - 1; i += 2) {
             for (let j = 2; j < this.gridArray[0].length - 1; j += 2) {
                 // this.gridArray[i][j] = "W";
                 this.gridArray[i][j] = new Wall(i, j, this.cellSize);
-                this.collidables.push(this.gridArray[i][j]);
+                // this.collidables.push(this.gridArray[i][j]);
+                this.collidables[[i,j]] = this.gridArray[i][j];
             }
         }
     }
@@ -55,7 +60,8 @@ class Grid {
                 if (Math.random() < 0.2) {
                     // this.gridArray[i][j] = "O";
                     this.gridArray[i][j] = new Obstacle(j, i, this.cellSize);
-                    this.collidables.push(this.gridArray[i][j]);
+                    // this.collidables.push(this.gridArray[i][j]);
+                    this.collidables[[i,j]] = this.gridArray[i][j];
                 }
             }
         }
@@ -80,31 +86,195 @@ class Grid {
                             ctx.drawImage(grassImg, 0, 0, grassImg.width, grassImg.height, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
                             ctx.drawImage(bombImg, 0, 0, bombImg.width, bombImg.height, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
                             break;
-                        //center of explosion
-                        case "EC":
+
+                        //----------------------------------------------------------------------------------------------->
+                        //---------------------------------------------EXPLOSION ANIMATION------------------------------->
+                        //----------------------------------------------------------------------------------------------->
+
+                        //--------------------------------------------------CENTER---------------------------------------->
+                        
+                        case "EC1":
                             ctx.drawImage(grassImg, 0, 0, grassImg.width, grassImg.height, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
                             ctx.drawImage(explosionImg, 0, 0, explosionImg.width/7, explosionImg.height/3, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
                             break;
-                        //explode up
-                        case "EU":                          
+                        case "EC2":
                             ctx.drawImage(grassImg, 0, 0, grassImg.width, grassImg.height, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
-                            ctx.drawImage(explosionUpImg, 0, explosionUpImg.height-(explosionUpImg.height/7)+1, explosionUpImg.width/2, (explosionUpImg.height/7) -1, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize);                           
+                            ctx.drawImage(explosionImg, explosionImg.width / 7, 0, explosionImg.width/7, explosionImg.height/3, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
                             break;
-                        //explode down
-                        case "ED":
+                        case "EC3":
                             ctx.drawImage(grassImg, 0, 0, grassImg.width, grassImg.height, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
-                            ctx.drawImage(explosionDownImg, 0, 0, explosionDownImg.width/2, explosionDownImg.height/7, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
+                            ctx.drawImage(explosionImg, 2 * explosionImg.width / 7, 0, explosionImg.width/7, explosionImg.height/3, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
                             break;
-                        //explode left
-                        case "EL":                          
+                        case "EC4":
                             ctx.drawImage(grassImg, 0, 0, grassImg.width, grassImg.height, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
-                            ctx.drawImage(explosionImg, 0, 2*explosionImg.height / 3, explosionImg.width/7, explosionImg.height/3, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize);                           
+                            ctx.drawImage(explosionImg, 3*explosionImg.width / 7, 0, explosionImg.width/7, explosionImg.height/3, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
                             break;
-                        //explode right
-                        case "ER":
+                        case "EC5":
                             ctx.drawImage(grassImg, 0, 0, grassImg.width, grassImg.height, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
-                            ctx.drawImage(explosionImg, 0, 2*explosionImg.height/3, explosionImg.width/7, explosionImg.height/3, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
+                            ctx.drawImage(explosionImg, 4 * explosionImg.width / 7, 0, explosionImg.width/7, explosionImg.height/3, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
                             break;
+                        case "EC6":
+                            ctx.drawImage(grassImg, 0, 0, grassImg.width, grassImg.height, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
+                            ctx.drawImage(explosionImg, 5*explosionImg.width / 7, 0, explosionImg.width/7, explosionImg.height/3, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
+                            break;
+                        case "EC7":
+                            ctx.drawImage(grassImg, 0, 0, grassImg.width, grassImg.height, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
+                            ctx.drawImage(explosionImg, 6 * explosionImg.width / 7, 0, explosionImg.width/7, explosionImg.height/3, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
+                            break;
+
+                        //----------------------------------------------------UP---------------------------------------->
+    
+                        // case "EU1":                          
+                        //     ctx.drawImage(grassImg, 0, 0, grassImg.width, grassImg.height, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
+                        //     ctx.drawImage(explosionUpImg, 0, explosionUpImg.height-(explosionUpImg.height/7)+1, explosionUpImg.width/2 - 2, (explosionUpImg.height/7) -1, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize);                           
+                        //     break;
+                        // case "EU2":                          
+                        //     ctx.drawImage(grassImg, 0, 0, grassImg.width, grassImg.height, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
+                        //     ctx.drawImage(explosionUpImg, 0, explosionUpImg.height-(2*explosionUpImg.height/7)+1, explosionUpImg.width/2 - 2, (explosionUpImg.height/7) -1, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize);                           
+                        //     break;
+                        // case "EU3":                          
+                        //     ctx.drawImage(grassImg, 0, 0, grassImg.width, grassImg.height, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
+                        //     ctx.drawImage(explosionUpImg, 0, explosionUpImg.height-(3*explosionUpImg.height/7)+1, explosionUpImg.width/2 - 2, (explosionUpImg.height/7) -1, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize);                           
+                        //     break;
+                        // case "EU4":                          
+                        //     ctx.drawImage(grassImg, 0, 0, grassImg.width, grassImg.height, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
+                        //     ctx.drawImage(explosionUpImg, 0, explosionUpImg.height-(4*explosionUpImg.height/7)+1, explosionUpImg.width/2 - 2, (explosionUpImg.height/7) -1, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize);                           
+                        //     break;
+                        // case "EU5":                          
+                        //     ctx.drawImage(grassImg, 0, 0, grassImg.width, grassImg.height, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
+                        //     ctx.drawImage(explosionUpImg, 0, explosionUpImg.height-(5*explosionUpImg.height/7)+1, explosionUpImg.width/2 - 2, (explosionUpImg.height/7) -1, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize);                           
+                        //     break;
+                        // case "EU6":                          
+                        //     ctx.drawImage(grassImg, 0, 0, grassImg.width, grassImg.height, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
+                        //     ctx.drawImage(explosionUpImg, 0, explosionUpImg.height-(6*explosionUpImg.height/7)+1, explosionUpImg.width/2 - 2, (explosionUpImg.height/7) -1, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize);                           
+                        //     break;
+                        // case "EU7":                          
+                        //     ctx.drawImage(grassImg, 0, 0, grassImg.width, grassImg.height, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
+                        //     ctx.drawImage(explosionUpImg, 0, 0, explosionUpImg.width/2 - 2, (explosionUpImg.height/7) -1, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize);                           
+                        //     break;
+                        case "EU1":
+                            ctx.drawImage(grassImg, 0, 0, grassImg.width, grassImg.height, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
+                            ctx.drawImage(explosionDownImg, explosionDownImg.width / 2, 0, explosionDownImg.width / 2, explosionDownImg.height / 7, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
+                            break;
+                        case "EU2":
+                            ctx.drawImage(grassImg, 0, 0, grassImg.width, grassImg.height, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
+                            ctx.drawImage(explosionDownImg, explosionDownImg.width / 2, explosionDownImg.height / 7, explosionDownImg.width / 2, explosionDownImg.height / 7, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
+                            break;
+                        case "EU3":
+                            ctx.drawImage(grassImg, 0, 0, grassImg.width, grassImg.height, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
+                            ctx.drawImage(explosionDownImg, explosionDownImg.width / 2, 2 * explosionDownImg.height / 7, explosionDownImg.width / 2, explosionDownImg.height / 7, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
+                            break;
+                        case "EU4":
+                            ctx.drawImage(grassImg, 0, 0, grassImg.width, grassImg.height, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
+                            ctx.drawImage(explosionDownImg, explosionDownImg.width / 2, 3 * explosionDownImg.height / 7, explosionDownImg.width / 2, explosionDownImg.height / 7, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
+                            break;
+                        case "EU5":
+                            ctx.drawImage(grassImg, 0, 0, grassImg.width, grassImg.height, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
+                            ctx.drawImage(explosionDownImg, explosionDownImg.width / 2, 4 * explosionDownImg.height / 7, explosionDownImg.width / 2, explosionDownImg.height / 7, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
+                            break;
+                        case "EU6":
+                            ctx.drawImage(grassImg, 0, 0, grassImg.width, grassImg.height, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
+                            ctx.drawImage(explosionDownImg, explosionDownImg.width / 2, 5 * explosionDownImg.height / 7, explosionDownImg.width / 2, explosionDownImg.height / 7, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
+                            break;
+                        case "EU7":
+                            ctx.drawImage(grassImg, 0, 0, grassImg.width, grassImg.height, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
+                            ctx.drawImage(explosionDownImg, explosionDownImg.width / 2, 6 * explosionDownImg.height / 7, explosionDownImg.width / 2, explosionDownImg.height / 7, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
+                            break;
+
+                        //----------------------------------------------------DOWN---------------------------------------->
+                        
+                        case "ED1":
+                            ctx.drawImage(grassImg, 0, 0, grassImg.width, grassImg.height, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
+                            ctx.drawImage(explosionDownImg, explosionDownImg.width / 2, 0, explosionDownImg.width/2, explosionDownImg.height/7, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
+                            break;
+                        case "ED2":
+                            ctx.drawImage(grassImg, 0, 0, grassImg.width, grassImg.height, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
+                            ctx.drawImage(explosionDownImg, explosionDownImg.width / 2, explosionDownImg.height / 7, explosionDownImg.width/2, explosionDownImg.height/7, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
+                            break;
+                        case "ED3":
+                            ctx.drawImage(grassImg, 0, 0, grassImg.width, grassImg.height, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
+                            ctx.drawImage(explosionDownImg, explosionDownImg.width / 2, 2 * explosionDownImg.height / 7, explosionDownImg.width/2, explosionDownImg.height/7, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
+                            break;
+                        case "ED4":
+                            ctx.drawImage(grassImg, 0, 0, grassImg.width, grassImg.height, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
+                            ctx.drawImage(explosionDownImg, explosionDownImg.width / 2, 3 * explosionDownImg.height / 7, explosionDownImg.width/2, explosionDownImg.height/7, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
+                            break;
+                        case "ED5":
+                            ctx.drawImage(grassImg, 0, 0, grassImg.width, grassImg.height, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
+                            ctx.drawImage(explosionDownImg, explosionDownImg.width / 2, 4 * explosionDownImg.height / 7, explosionDownImg.width/2, explosionDownImg.height/7, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
+                            break;
+                        case "ED6":
+                            ctx.drawImage(grassImg, 0, 0, grassImg.width, grassImg.height, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
+                            ctx.drawImage(explosionDownImg, explosionDownImg.width / 2, 5 * explosionDownImg.height / 7, explosionDownImg.width/2, explosionDownImg.height/7, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
+                            break;
+                        case "ED7":
+                            ctx.drawImage(grassImg, 0, 0, grassImg.width, grassImg.height, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
+                            ctx.drawImage(explosionDownImg, explosionDownImg.width / 2, 6 * explosionDownImg.height / 7, explosionDownImg.width/2, explosionDownImg.height/7, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
+                            break;
+
+                        //----------------------------------------------------LEFT---------------------------------------->
+
+                        case "EL1":                          
+                            ctx.drawImage(grassImg, 0, 0, grassImg.width, grassImg.height, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
+                            ctx.drawImage(explosionImg, 0, explosionImg.height / 3 + 3, explosionImg.width/7, explosionImg.height / 3 - 2, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize);                           
+                            break;
+                        case "EL2":                          
+                            ctx.drawImage(grassImg, 0, 0, grassImg.width, grassImg.height, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
+                            ctx.drawImage(explosionImg, explosionImg.width / 7, explosionImg.height / 3 + 3, explosionImg.width/7, explosionImg.height/3 -2, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize);                           
+                            break;
+                        case "EL3":                          
+                            ctx.drawImage(grassImg, 0, 0, grassImg.width, grassImg.height, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
+                            ctx.drawImage(explosionImg, 2*explosionImg.width / 7, explosionImg.height / 3 + 3, explosionImg.width/7, explosionImg.height/3 -2, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize);                           
+                            break;
+                        case "EL4":                          
+                            ctx.drawImage(grassImg, 0, 0, grassImg.width, grassImg.height, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
+                            ctx.drawImage(explosionImg, 3*explosionImg.width / 7, explosionImg.height / 3 + 3, explosionImg.width/7, explosionImg.height/3 -2, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize);                           
+                            break;
+                        case "EL5":                          
+                            ctx.drawImage(grassImg, 0, 0, grassImg.width, grassImg.height, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
+                            ctx.drawImage(explosionImg, 4 * explosionImg.width / 7, explosionImg.height / 3 + 3, explosionImg.width/7, explosionImg.height/3 -2, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize);                           
+                            break;
+                        case "EL6":                          
+                            ctx.drawImage(grassImg, 0, 0, grassImg.width, grassImg.height, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
+                            ctx.drawImage(explosionImg, 5 * explosionImg.width / 7, explosionImg.height / 3 + 3, explosionImg.width/7, explosionImg.height/3 -2, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize);                           
+                            break;
+                        case "EL7":                          
+                            ctx.drawImage(grassImg, 0, 0, grassImg.width, grassImg.height, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
+                            ctx.drawImage(explosionImg, 6 * explosionImg.width / 7, explosionImg.height / 3 + 3, explosionImg.width/7, explosionImg.height/3 -2, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize);                           
+                            break;
+
+                        //----------------------------------------------------RIGHT---------------------------------------->
+                        
+                        case "ER1":
+                            ctx.drawImage(grassImg, 0, 0, grassImg.width, grassImg.height, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
+                            ctx.drawImage(explosionImg, 0, explosionImg.height / 3 + 3, explosionImg.width / 7, explosionImg.height / 3 - 2, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize);
+                            break;
+                        case "ER2":
+                            ctx.drawImage(grassImg, 0, 0, grassImg.width, grassImg.height, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
+                            ctx.drawImage(explosionImg, explosionImg.width / 7, explosionImg.height / 3 + 3, explosionImg.width / 7, explosionImg.height /  + 3 - 2, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize);
+                            break;
+                        case "ER3":
+                            ctx.drawImage(grassImg, 0, 0, grassImg.width, grassImg.height, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
+                            ctx.drawImage(explosionImg, 2 * explosionImg.width / 7, explosionImg.height / 3 + 3, explosionImg.width / 7, explosionImg.height / 3 - 2, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize);
+                            break;
+                        case "ER4":
+                            ctx.drawImage(grassImg, 0, 0, grassImg.width, grassImg.height, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
+                            ctx.drawImage(explosionImg, 3 * explosionImg.width / 7, explosionImg.height / 3 + 3, explosionImg.width / 7, explosionImg.height / 3 - 2, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize);
+                            break;
+                        case "ER5":
+                            ctx.drawImage(grassImg, 0, 0, grassImg.width, grassImg.height, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
+                            ctx.drawImage(explosionImg, 4 * explosionImg.width / 7, explosionImg.height / 3 + 3, explosionImg.width / 7, explosionImg.height / 3 - 2, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize);
+                            break;
+                        case "ER6":
+                            ctx.drawImage(grassImg, 0, 0, grassImg.width, grassImg.height, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
+                            ctx.drawImage(explosionImg, 5 * explosionImg.width / 7, explosionImg.height / 3 + 3, explosionImg.width / 7, explosionImg.height / 3 - 2, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize);
+                            break;
+                        case "ER7":
+                            ctx.drawImage(grassImg, 0, 0, grassImg.width, grassImg.height, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
+                            ctx.drawImage(explosionImg, 6 * explosionImg.width / 7, explosionImg.height / 3 + 3, explosionImg.width / 7, explosionImg.height / 3 - 2, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize);
+                            break;
+
+                        //----------------------------------------------------CRATE---------------------------------------->
                         //explode a crate
                         case "EO":
                             ctx.drawImage(grassImg, 0, 0, grassImg.width, grassImg.height, canvasCoords[0], canvasCoords[1], grid.cellSize, grid.cellSize)
