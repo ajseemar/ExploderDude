@@ -47,15 +47,18 @@ const grid = new Grid();
 
 const SOCKETS = {};
 const PLAYERS = {};
+let counter = 0;
 const COMPS = {1: new AI(1, grid)};
 let aiIds = [1, 2, 3];
 
 io.sockets.on('connection', (socket) => {
     SOCKETS[socket.id] = socket;
     PLAYERS[socket.id] = new Player(socket.id, grid);
+    counter++;
 
-    if (Object.keys(PLAYERS).length === 2) {
+    if (counter === 2) {
         Object.values(SOCKETS).forEach(socket => socket.emit('startGame'));
+        counter = 0;
     };
 
     socket.on('update', (data) => {
