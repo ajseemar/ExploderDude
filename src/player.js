@@ -54,13 +54,13 @@ class Player extends Entity {
                 && gridArray[col][row-i].type !== "wall"
                 && gridArray[col][row-i].type !== "obstacle"
             ) {
-                gridArray[col][row-i] = 'EU';
+                gridArray[col][row-i] = 'EU1';
                 positionsToClear.push([col, row-i]);
                 //if it is an obstacle OR we've already encountered an obstacle in this direction
             } else if (row - i >= 1 && gridArray[col][row-i].type === 'obstacle') {
                 //if it's the first obstacle we've encountered, destroy it and set boolean false but still decrement so explosion doesn't extend
                 delete this.grid.collidables[[col,row-i]];
-                gridArray[col][row-i] = 'EO';
+                gridArray[col][row-i] = 'EU1';
                 positionsToClear.push([col, row - i]);
                 // if (obstacleClearUp) {
                     // obstacleClearUp = false;
@@ -73,13 +73,13 @@ class Player extends Entity {
                 && gridArray[col][row + i].type !== "wall"
                 && gridArray[col][row + i].type !== "obstacle"
             ) {
-                gridArray[col][row+i] = 'ED';
+                gridArray[col][row+i] = 'ED1';
                 positionsToClear.push([col, row+i]);
                 //if it is an obstacle OR we've already encountered an obstacle in this direction
             } else if (row+i <= 16 && gridArray[col][row+i].type === 'obstacle') {
                 //if it's the first obstacle we've encountered, destroy it and set boolean false but still decrement so explosion doesn't extend
                 delete this.grid.collidables[[col, row + i]];
-                gridArray[col][row+i] = 'EO';
+                gridArray[col][row+i] = 'ED1';
                 positionsToClear.push([col, row+i]);
                 // if (obstacleClearDown) {
                     // obstacleClearDown = false;
@@ -92,13 +92,13 @@ class Player extends Entity {
                 && gridArray[col - i][row].type !== "wall"
                 && gridArray[col - i][row].type !== "obstacle"
             ) {
-                gridArray[col-i][row] = 'EL';
+                gridArray[col-i][row] = 'EL1';
                 positionsToClear.push([col-i, row]);
                 //if it is an obstacle OR we've already encountered an obstacle in this direction
             } else if (col-i >=1 && gridArray[col-i][row].type === 'obstacle') {
                 //if it's the first obstacle we've encoutered, destroy it and set boolean false but still decrement so explosion doesn't extend
                 delete this.grid.collidables[[col-i, row]];
-                gridArray[col-i][row] = 'EO';
+                gridArray[col-i][row] = 'EL1';
                 positionsToClear.push([col-i, row]);
                 // if (obstacleClearDown) {
                     // obstacleClearDown = false;
@@ -111,13 +111,13 @@ class Player extends Entity {
                 && gridArray[col + i][row].type !== "wall"
                 && gridArray[col + i][row].type !== "obstacle"
             ) {
-                gridArray[col + i][row] = 'ER';
+                gridArray[col + i][row] = 'ER1';
                 positionsToClear.push([col + i, row]);
                 //if it is an obstacle OR we've already encountered an obstacle in this direction
             } else if (col + i <= 16 && gridArray[col + i][row].type === 'obstacle') {
                 //if it's the first obstacle we've encoutered, destroy it and set boolean false but still decrement so explosion doesn't extend
                 delete this.grid.collidables[[col+i, row]];
-                gridArray[col + i][row] = 'EO';
+                gridArray[col + i][row] = 'ER1';
                 positionsToClear.push([col + i, row]);
                 // if (obstacleClearDown) {
                 // obstacleClearDown = false;
@@ -127,9 +127,18 @@ class Player extends Entity {
 
         const explosionAnimation = iter => {
             if (iter < numAnimations+1) {
-                this.grid.gridArray[center[0]][center[1]] = "EC" + iter.toString();
-                setTimeout( () => {
-                    explosionAnimation(iter+1);
+                positionsToClear.forEach(pos => {
+                    let len = this.grid.gridArray[pos[0]][pos[1]].length;
+                    // if (
+                    //     this.grid.gridArray[pos[0]][pos[1]].slice(0, len - 1) === "EC" || 
+                    //     this.grid.gridArray[pos[0]][pos[1]].slice(0, len - 1) === "EU" ||
+                    //     this.grid.gridArray[pos[0]][pos[1]].slice(0, len - 1) === "ED"
+                    //     ) {
+                        this.grid.gridArray[pos[0]][pos[1]] = this.grid.gridArray[pos[0]][pos[1]].slice(0, len-1) + iter.toString();
+                    // }
+                });
+                setTimeout(() => {
+                    explosionAnimation(iter + 1);
                 }, explosionTime/numAnimations);
             }
         }
