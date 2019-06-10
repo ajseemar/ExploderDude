@@ -155,7 +155,7 @@ class Player extends Entity {
     dropBomb () {
         if (this.canDropBomb) {
             this.canDropBomb = false;
-            setTimeout(() => this.canDropBomb = true, 100);
+            setTimeout(() => this.canDropBomb = true, 200);
             let gridCoords = [Math.floor((this.position.x + 24) / 48), Math.floor((this.position.y + 24) / 48)];
             this.grid.gridArray[gridCoords[0]][gridCoords[1]] = "B";
             this.bombCount--;
