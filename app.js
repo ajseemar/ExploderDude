@@ -48,7 +48,7 @@ const Lobby = require('./src/lobby');
 //     grid = new Grid();
 // }
 
-const lobby = new Lobby(3);
+const lobby = new Lobby(2);
 
 io.sockets.on('connection', (socket) => {
     lobby.addSocket(socket);
