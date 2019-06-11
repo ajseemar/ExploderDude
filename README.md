@@ -6,7 +6,7 @@ ExploderDude is inspired by the classic Super Nintendo game Bomberman 2.
 
 It is an interactive, multiplayer game that uses JavaScript, HTML5 Canvas, Express, and Socket.io. 
 
-![](https://i.imgur.com/kZngJZg.gif)
+![Alt Text](https://i.imgur.com/kZngJZg.gif)
 
 ## Features
 * Random grid generator to increase variation in gameplay
