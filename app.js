@@ -27,9 +27,13 @@ if (process.env.NODE_ENV === "production") {
         res.sendFile(path.resolve(__dirname, "/index.html"));
     });
 } else {
-    app.get("/", (req, res) => res.sendFile(__dirname + '/public/index.html'));
-    app.use('/public', express.static(__dirname + '/public'));
-    // app.use(express.static("public"));
+    if (port === 3000) {
+        app.get("/", (req, res) => res.sendFile(__dirname + '/public/index.html'));
+        app.use('/public', express.static(__dirname + '/public'));
+    } else {
+        app.get("/", (req, res) => res.sendFile(__dirname + '/index.html'));
+        app.use(express.static("public"));
+    }
 }
 
 // app.get("/", (req, res) => {
