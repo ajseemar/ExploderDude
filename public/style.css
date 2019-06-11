@@ -4,6 +4,10 @@
     height: 816px;
 }
 
+body {
+    font-family: 'PixelEmulator';
+}
+
 #title-container {
     display: flex;
     justify-content: center;

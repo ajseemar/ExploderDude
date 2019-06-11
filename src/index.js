@@ -77,6 +77,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const ctx = canvas.getContext('2d');
     const inputHandler = new Input();
 
+    socket.on('renderLobby', data => {
+        ctx.font = '30px PixelEmulator';
+        ctx.fillText(`Waiting for ${data.gameSize - data.playerNum} more player(s). You are player ${data.playerNum}`, 10, 50);
+    })
+
     const update = initialTime => {
         let time = Date.now();
         let dt = (time - initialTime) / 1000.0;
@@ -93,6 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
     socket.on('startGame', () => update(Date.now()));
     
     socket.on('render', (data) => {
+        console.log(data);
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         Grid.render(ctx, data.grid, grassImg, wallImg, crateImg, bombImg, explosionImg, explosionUpImg, explosionDownImg, itemsImg);
         data.pack.forEach(player => {
