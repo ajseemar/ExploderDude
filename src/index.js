@@ -1,15 +1,20 @@
 import io from 'socket.io-client';
-import openSocket from "socket.io-client";
+// import openSocket from "socket.io-client";
 
-const socket = io('http://localhost:3000');
+// const socket = io('http://localhost:3000');
+// const socket = io('https://exploder-dude.herokuapp.com');
 
 // ---------------------------------------------------->
 //                     Client
-// const production = "https://exploder-dude.herokuapp.com";
-// const development = "http://localhost:3000/";
-// export const url =
-//     process.env.NODE_ENV === "development" ? development : production;
-// export const socket = openSocket(url);
+const production = "https://exploder-dude.herokuapp.com/";
+const development = "http://localhost:3000/";
+console.log(process.env.NODE_ENV);
+console.log(production);
+export const url =
+    process.env.NODE_ENV === "development" ? development : production;
+
+// export const url = production;
+export const socket = io(development);
 //
 // ---------------------------------------------------->
 
@@ -72,6 +77,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const ctx = canvas.getContext('2d');
     const inputHandler = new Input();
 
+    socket.on('renderLobby', data => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.font = '30px PixelEmulator';
+        ctx.fillText(`Waiting for ${data.gameSize - data.playerNum} more player(s)`, 10, 50);
+        ctx.fillText(`You are player ${data.playerNum}`, 10, 100);
+    })
+
     const update = initialTime => {
         let time = Date.now();
         let dt = (time - initialTime) / 1000.0;
@@ -88,6 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
     socket.on('startGame', () => update(Date.now()));
     
     socket.on('render', (data) => {
+        console.log(data);
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         Grid.render(ctx, data.grid, grassImg, wallImg, crateImg, bombImg, explosionImg, explosionUpImg, explosionDownImg, itemsImg);
         data.pack.forEach(player => {
@@ -103,17 +116,57 @@ document.addEventListener('DOMContentLoaded', () => {
                 while (bombs.firstChild) {
                     bombs.removeChild(bombs.firstChild);
                 }
-                for (let i = 0; i < player.lives; i++) {
+                if (player.lives <= 3) {
+                    for (let i = 0; i < player.lives; i++) {
+                        let heartIcon = document.createElement("IMG");
+                        heartIcon.setAttribute("src", "https://raw.githubusercontent.com/ajseemar/ExploderDude/bombs/public/assets/images/itemsHeart.png");
+                        heartIcon.setAttribute("width", "48");
+                        heartIcon.setAttribute("height", "48");
+                        lives.appendChild(heartIcon);
+                    }
+                } else {
                     let heartIcon = document.createElement("IMG");
-                    heartIcon.setAttribute("src", "https://raw.githubusercontent.com/camcarter131/MERN_stack_project/master/frontend/public/heart.png");
+                    heartIcon.setAttribute("src", "https://raw.githubusercontent.com/ajseemar/ExploderDude/bombs/public/assets/images/itemsHeart.png");
                     heartIcon.setAttribute("width", "48");
                     heartIcon.setAttribute("height", "48");
+                    heartIcon.setAttribute("display", "inline");
                     lives.appendChild(heartIcon);
+                    let countText = document.createElement("div");
+                    countText.setAttribute("height", "48");
+                    countText.setAttribute("width", "48");
+                    countText.setAttribute("display", "inline");
+                    countText.setAttribute("font-family", 'PixelEmulator');
+                    countText.innerHTML = `x ${player.lives}`;
+                    lives.appendChild(countText);
                 }
-                for (let j = 0; j < player.bombCount; j++) {
+                if (player.bombCount <= 3) {
+                    for (let j = 0; j < player.bombCount; j++) {
+                        let bombIcon = document.createElement("IMG");
+                        bombIcon.setAttribute("src", "https://raw.githubusercontent.com/camcarter131/MERN_stack_project/master/frontend/public/bomb.png");
+                        bombIcon.setAttribute("width", "48");
+                        bombIcon.setAttribute("height", "48");
+                        bombs.appendChild(bombIcon);
+                    }
+                } else if (player.bombCount > 3) {
                     let bombIcon = document.createElement("IMG");
                     bombIcon.setAttribute("src", "https://raw.githubusercontent.com/camcarter131/MERN_stack_project/master/frontend/public/bomb.png");
                     bombIcon.setAttribute("width", "48");
+                    bombIcon.setAttribute("height", "48");
+                    bombIcon.setAttribute("display", "inline");
+                    lives.appendChild(bombIcon);
+                    let countText = document.createElement("div");
+                    countText.setAttribute("height", "48");
+                    countText.setAttribute("width", "48");
+                    countText.setAttribute("display", "inline");
+                    countText.setAttribute("font-family", 'PixelEmulator');
+                    countText.innerHTML = `x ${player.bombCount}`;
+                    lives.appendChild(countText);
+                } 
+                
+                if (player.bombCount === 0) {
+                    let bombIcon = document.createElement("IMG");
+                    bombIcon.setAttribute("src", "");
+                    bombIcon.setAttribute("width", "0");
                     bombIcon.setAttribute("height", "48");
                     bombs.appendChild(bombIcon);
                 }
