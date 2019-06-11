@@ -6,7 +6,7 @@ ExploderDude is inspired by the classic Super Nintendo game Bomberman 2.
 
 It is an interactive, multiplayer game that uses JavaScript, HTML5 Canvas, Express, and Socket.io. 
 
-<!-- ![](./public/assets/images/mygif.gif) -->
+![](./public/assets/readme/exploderdudeSmaller.gif)
 
 ## Features
 * Random grid generator to increase variation in gameplay
@@ -93,3 +93,46 @@ static resolveCollision(player, entity) {
     }
 }
 ```
+
+#### Socket.io Multiplayer
+
+Our server adds each new client to a lobby and starts a new game when four players have connected.
+
+```
+io.sockets.on('connection', (socket) => {
+    lobby.addSocket(socket);
+
+    socket.on('update', (data) => {
+        let payload = lobby.update(data);
+        socket.emit("render", payload);
+    });
+
+    socket.on('disconnect', socket => {
+        lobby.deleteSocket(socket.id);
+        console.log(`socket disconnected: ${socket.id}`);
+    });
+});
+```
+
+The server-created lobby updates the grid and each player's position according to the player's input state and saves each new state in a pack variable. This variable is then emitted to each client to render the new state of the grid and each player.
+
+```
+update(data) {
+    let pack = [];
+    Object.values(this.players).forEach(player => {
+        player.isDead();
+        player.pickUpItem();
+        pack.push(player.update(data.dt, data.pressedKeys, data.id));
+    });
+    return {pack, grid: this.grid};
+}
+```
+
+## Technologies
+ExploderDude uses a JavaScript/HTML5 Canvas frontend with a Express backend for our Socket.io integration. 
+
+## Potential Future Releases
+In the future we would like to add:
+
+* A lobby with supporting custom/multiple game rooms
+* Ability to upload images or sprites
