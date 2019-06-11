@@ -39,6 +39,9 @@ createObstacles() {
 
 #### Collision Engine
 
+![](./public/assets/readme/collisions.gif)
+
+
 The detectCollision function is used to iterate over all collidables to filter out obstacles colliding with the player. These filtered obstacles are then passed to the below resolveCollision function.
 
 ```
