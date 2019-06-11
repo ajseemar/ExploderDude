@@ -16,36 +16,9 @@ It is an interactive, multiplayer game that uses JavaScript, HTML5 Canvas, Expre
 
 #### Random Grid Generator
 
-The createWalls function generates the border and grid with indestructible blocks. 
+We use two main functions to generate a grid. A createWalls function is used to generates the border and grid with indestructible blocks. 
 
-```
-createWalls() {
-    let rowTop = 0;
-    let rowBottom = this.gridSize - 1;
-    for (let col = 0; col < this.gridArray[0].length; col += 1) {
-        this.gridArray[col][rowTop] = new Wall(col, rowTop, this.cellSize);
-        this.gridArray[col][rowBottom] = new Wall(col, rowBottom, this.cellSize);
-        this.collidables[[col,rowTop]] = this.gridArray[col][rowTop];
-        this.collidables[[col,rowBottom]] = this.gridArray[col][rowBottom];
-    }
-    let colLeft = 0;
-    let colRight = this.gridSize - 1;
-    for (let row = 0; row < this.gridArray[0].length; row += 1) {
-        this.gridArray[colLeft][row] = new Wall(colLeft, row, this.cellSize);
-        this.gridArray[colRight][row] = new Wall(colRight, row, this.cellSize);
-        this.collidables[[colLeft,row]] = this.gridArray[colLeft][row];
-        this.collidables[[colRight,row]] = this.gridArray[colRight][row];
-    }
-    for (let i = 2; i < this.gridArray[0].length - 1; i += 2) {
-        for (let j = 2; j < this.gridArray[0].length - 1; j += 2) {
-            this.gridArray[i][j] = new Wall(i, j, this.cellSize);
-            this.collidables[[i,j]] = this.gridArray[i][j];
-        }
-    }
-}
-```
-
-The createObstacles function builds on top of the base grid by generating randomly placed destructible obstacles throughout the map. On destruction, these obstacles have a random chance of dropping one of four powerups.
+The createObstacles function builds on top of this base grid by generating randomly placed destructible obstacles throughout the map. On destruction, these obstacles have a random chance of dropping one of four powerups.
 
 This function also uses a helper function checkNeighbors to ensure that obstacles are not placed at any of the four initial player starting locations.
 
@@ -59,6 +32,60 @@ createObstacles() {
                     this.collidables[[i,j]] = this.gridArray[i][j];
                 }
             }
+        }
+    }
+}
+```
+
+#### Collision Engine
+
+The detectCollision function is used to iterate over all collidables to filter out obstacles colliding with the player. These filtered obstacles are then passed to the below resolveCollision function.
+
+```
+static detectCollision(collider, collidee) {
+    const l1 = collider.getLeft() + collider.size / 4;
+    const t1 = collider.getTop() + collider.size / 6;
+    const r1 = collider.getRight() - collider.size / 4;
+    const b1 = collider.getBottom() - collider.size / 8;
+
+    const l2 = collidee.col * 48;
+    const t2 = collidee.row * 48;
+    const r2 = collidee.col * 48 + 48;
+    const b2 = collidee.row * 48 + 48;
+
+    if (b1 < t2 || t1 > b2 || r1 < l2 || l1 > r2) {
+        return false;
+    }
+
+    return true;
+}
+```
+
+The resolveCollision function will detect the direction of the player relative to the colliding obstacle and reposition the player to the edge of that obstacle. This will ensure that the player will not intersect with any collidable's boundaries.
+
+```
+static resolveCollision(player, entity) {
+    const pMidX = player.getMidX();
+    const pMidY = player.getMidY();
+    const aMidX = entity.getMidX();
+    const aMidY = entity.getMidY();
+
+    const dx = (aMidX - pMidX) / entity.halfWidth;
+    const dy = (aMidY - pMidY) / entity.halfHeight;
+
+    const absDX = Math.abs(dx);
+    const absDY = Math.abs(dy);
+    if (absDX > absDY) {
+        if (dx < 0) {
+            player.position.x = entity.getRight() - player.size / 4 + 1;
+        } else {
+            player.position.x = entity.getLeft() - player.width + player.size / 4 - 1;
+        }
+    } else {
+        if (dy < 0) {
+            player.position.y = entity.getBottom() - player.size / 6 + 1;
+        } else {
+            player.position.y = entity.getTop() - player.height  + player.size / 8 - 1;
         }
     }
 }
