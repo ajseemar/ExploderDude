@@ -6,7 +6,7 @@ ExploderDude is inspired by the classic Super Nintendo game Bomberman 2.
 
 It is an interactive, multiplayer game that uses JavaScript, HTML5 Canvas, Express, and Socket.io. 
 
-![](./public/assets/readme/exploderdudeSmaller.gif)
+![](./assets/readme/exploderdudeSmaller.gif)
 
 ## Features
 * Random grid generator to increase variation in gameplay
@@ -39,7 +39,7 @@ createObstacles() {
 
 #### Collision Engine
 
-![](./public/assets/readme/collisions.gif)
+![](./assets/readme/collisions.gif)
 
 
 The detectCollision function is used to iterate over all collidables to filter out obstacles colliding with the player. These filtered obstacles are then passed to the below resolveCollision function.
