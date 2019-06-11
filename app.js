@@ -29,8 +29,8 @@ if (process.env.NODE_ENV === "production") {
 } else {
     if (port === 3000) {
         app.get("/", (req, res) => res.sendFile(__dirname + '/public/index.html'));
-        // app.use('/public', express.static(__dirname + '/public'));
-        app.use(express.static("public"));
+        app.use('/public', express.static(__dirname + '/public'));
+        // app.use(express.static("public"));
     } else {
         app.get("/", (req, res) => res.sendFile(__dirname + '/index.html'));
         app.use(express.static("public"));

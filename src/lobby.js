@@ -30,8 +30,8 @@ class Lobby {
     }
 
     update(data) {
-        if (this.games.length > 1) {
-            return this.games[1].update(data);
+        if (this.games.length > 0) {
+            return this.games[0].update(data);
         }
     }
 
