@@ -14,7 +14,7 @@ export const url =
     process.env.NODE_ENV === "development" ? development : production;
 
 // export const url = production;
-export const socket = io(production);
+export const socket = io(development);
 //
 // ---------------------------------------------------->
 
@@ -78,8 +78,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const inputHandler = new Input();
 
     socket.on('renderLobby', data => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.font = '30px PixelEmulator';
-        ctx.fillText(`Waiting for ${data.gameSize - data.playerNum} more player(s). You are player ${data.playerNum}`, 10, 50);
+        ctx.fillText(`Waiting for ${data.gameSize - data.playerNum} more player(s)`, 10, 50);
+        ctx.fillText(`You are player ${data.playerNum}`, 10, 100);
     })
 
     const update = initialTime => {

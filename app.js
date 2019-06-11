@@ -27,7 +27,7 @@ if (process.env.NODE_ENV === "production") {
         res.sendFile(path.resolve(__dirname, "/index.html"));
     });
 } else {
-    app.get("/", (req, res) => res.sendFile(__dirname + '/index.html'));
+    app.get("/", (req, res) => res.sendFile(__dirname + '/public/index.html'));
     app.use('/public', express.static(__dirname + '/public'));
     // app.use(express.static("public"));
 }
@@ -48,7 +48,7 @@ const Lobby = require('./src/lobby');
 //     grid = new Grid();
 // }
 
-const lobby = new Lobby(2);
+const lobby = new Lobby(3);
 
 io.sockets.on('connection', (socket) => {
     lobby.addSocket(socket);
