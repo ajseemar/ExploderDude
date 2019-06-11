@@ -17,49 +17,44 @@ class Grid {
         let rowTop = 0;
         let rowBottom = this.gridSize - 1;
         for (let col = 0; col < this.gridArray[0].length; col += 1) {
-            // this.gridArray[col][rowTop] = "W";
-            // this.gridArray[col][rowBottom] = "W";
             this.gridArray[col][rowTop] = new Wall(col, rowTop, this.cellSize);
             this.gridArray[col][rowBottom] = new Wall(col, rowBottom, this.cellSize);
-            // this.collidables.push(this.gridArray[col][rowTop]);
-            // this.collidables.push(this.gridArray[col][rowBottom]);
             this.collidables[[col,rowTop]] = this.gridArray[col][rowTop];
             this.collidables[[col,rowBottom]] = this.gridArray[col][rowBottom];
         }
         let colLeft = 0;
         let colRight = this.gridSize - 1;
         for (let row = 0; row < this.gridArray[0].length; row += 1) {
-            // this.gridArray[colLeft][row] = "W";
-            // this.gridArray[colRight][row] = "W";
             this.gridArray[colLeft][row] = new Wall(colLeft, row, this.cellSize);
             this.gridArray[colRight][row] = new Wall(colRight, row, this.cellSize);
-            // this.collidables.push(this.gridArray[colLeft][row]);
-            // this.collidables.push(this.gridArray[colRight][row]);
             this.collidables[[colLeft,row]] = this.gridArray[colLeft][row];
             this.collidables[[colRight,row]] = this.gridArray[colRight][row];
         }
         for (let i = 2; i < this.gridArray[0].length - 1; i += 2) {
             for (let j = 2; j < this.gridArray[0].length - 1; j += 2) {
-                // this.gridArray[i][j] = "W";
                 this.gridArray[i][j] = new Wall(i, j, this.cellSize);
-                // this.collidables.push(this.gridArray[i][j]);
                 this.collidables[[i,j]] = this.gridArray[i][j];
             }
         }
     }
 
+    checkNeighbors(i, j) {
+        if ((i === 1 && j === 15) || (i === 1 && j === 1) || (i === 15 && j === 1) || (i === 15 && j === 15)
+            || (i === 1 && j === 2) || (i === 2 && j === 1)
+            || (i === 15 && j === 2) || (i === 14 && j === 1)
+            || (i === 15 && j === 14) || (i === 14 && j === 15)
+            || (i === 1 && j === 14) || (i === 2 && j === 15)) return true;
+        if (this.gridArray[i][j].type === "wall") return true;
+    }
+
     createObstacles() {
         for (let i = 1; i < this.gridArray[0].length - 1; i += 1) {
             for (let j = 1; j < this.gridArray[0].length - 1; j += 1) {
-                if ((i === 1 && j === 15) || (i === 1 && j === 1) || (i === 15 && j === 1) || (i === 15 && j === 15)
-                    || (i === 1 && j === 2) || (i === 2 && j === 1)
-                    || (i === 15 && j === 2) || (i === 14 && j === 1)
-                    || (i === 15 && j === 14) || (i === 14 && j === 15)
-                    || (i === 1 && j === 14) || (i === 2 && j === 15)) continue;
-                if (this.gridArray[i][j].type === "wall") continue;
-                if (Math.random() < 0.30) {
-                    this.gridArray[i][j] = new Obstacle(j, i, this.cellSize);
-                    this.collidables[[i,j]] = this.gridArray[i][j];
+                if (!this.checkNeighbors(i, j)) {
+                    if (Math.random() < 0.30) {
+                        this.gridArray[i][j] = new Obstacle(j, i, this.cellSize);
+                        this.collidables[[i,j]] = this.gridArray[i][j];
+                    }
                 }
             }
         }
