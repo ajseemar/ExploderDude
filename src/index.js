@@ -80,9 +80,11 @@ document.addEventListener('DOMContentLoaded', () => {
     socket.on('renderLobby', data => {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.font = '30px PixelEmulator';
-        // ctx.textAlign = "center"; 
-        ctx.fillText(`Waiting for ${data.gameSize - data.playerNum} more player(s)`, 10, canvas.height/2 - 50);
-        ctx.fillText(`You are player ${data.playerNum}`, 10, canvas.height / 2 + 50);
+        ctx.textAlign = "center"; 
+        let maybeS;
+        (data.gameSize - data.playerNum === 1) ? maybeS = "" : maybeS = "s";
+        ctx.fillText(`You are player ${data.playerNum}`, canvas.width/2, canvas.height / 2 + 50);
+        ctx.fillText(`Waiting for ${data.gameSize - data.playerNum} more player${maybeS}`, canvas.width/2, canvas.height/2 - 50);
     })
 
     const update = initialTime => {
