@@ -1,9 +1,6 @@
 import io from 'socket.io-client';
 // import openSocket from "socket.io-client";
 
-// const socket = io('http://localhost:3000');
-// const socket = io('https://exploder-dude.herokuapp.com');
-
 // ---------------------------------------------------->
 //                     Client
 const production = "https://exploder-dude.herokuapp.com/";
@@ -14,7 +11,7 @@ export const url =
     process.env.NODE_ENV === "development" ? development : production;
 
 // export const url = production;
-export const socket = io(development);
+export const socket = io(production);
 //
 // ---------------------------------------------------->
 
@@ -103,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
     socket.on('startGame', () => update(Date.now()));
     
     socket.on('render', (data) => {
-        console.log(data);
+        // console.log(data);
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         Grid.render(ctx, data.grid, grassImg, wallImg, crateImg, bombImg, explosionImg, explosionUpImg, explosionDownImg, itemsImg);
         data.pack.forEach(player => {

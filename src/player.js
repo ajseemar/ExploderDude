@@ -236,10 +236,12 @@ class Player extends Entity {
             this.bombCount++;
         } else if (this.grid.gridArray[gridCoords[0]][gridCoords[1]] === "I2") {
             this.grid.gridArray[gridCoords[0]][gridCoords[1]] = "X";
-            this.speed  += 50;
+            this.speed += 50;
+            // setTimeout(() => this.speed /= 2, 5000);
         } else if (this.grid.gridArray[gridCoords[0]][gridCoords[1]] === "I3") {
             this.grid.gridArray[gridCoords[0]][gridCoords[1]] = "X";
             this.bombSize++;
+            // setTimeout(() => this.bombSize--, 5000);
         } else if (this.grid.gridArray[gridCoords[0]][gridCoords[1]] === "I4") {
             this.grid.gridArray[gridCoords[0]][gridCoords[1]] = "X";
             this.lives++;

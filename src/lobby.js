@@ -4,13 +4,11 @@ class Lobby {
     constructor(gameSize) {
         this.gameSize = gameSize;
         this.sockets = {};
-        this.counter = 0;
         this.games = [];
     }
 
     addSocket(socket) {
         this.sockets[socket.id] = socket;
-        this.counter++;
         if (Object.keys(this.sockets).length === this.gameSize) {
             const game = new Game(this.sockets);
             this.games.push(game);
@@ -26,12 +24,14 @@ class Lobby {
 
     deleteSocket(socketId) {
         delete this.sockets[socketId];
+        // if (Object.keys(this.sockets).length === 0) {
+
+        // }
     }
 
     update(data) {
-        if (this.games.length > 0) {
-            // console.log(this.games);
-            return this.games[0].update(data);
+        if (this.games.length > 1) {
+            return this.games[1].update(data);
         }
     }
 
