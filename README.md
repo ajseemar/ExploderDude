@@ -129,9 +129,11 @@ update(data) {
 ```
 
 ## Technologies
+
 ExploderDude uses a JavaScript/HTML5 Canvas frontend with a Express backend for our Socket.io integration. 
 
 ## Potential Future Releases
+
 In the future we would like to add:
 
 * A lobby with supporting custom/multiple game rooms
