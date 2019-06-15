@@ -236,7 +236,7 @@ class Player extends Entity {
             this.bombCount++;
         } else if (this.grid.gridArray[gridCoords[0]][gridCoords[1]] === "I2") {
             this.grid.gridArray[gridCoords[0]][gridCoords[1]] = "X";
-            this.speed += 50;
+            this.speed += 51;
             // setTimeout(() => this.speed /= 2, 5000);
         } else if (this.grid.gridArray[gridCoords[0]][gridCoords[1]] === "I3") {
             this.grid.gridArray[gridCoords[0]][gridCoords[1]] = "X";
