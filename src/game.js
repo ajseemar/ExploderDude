@@ -19,9 +19,6 @@ class Game {
     }
 
     endGame() {
-        Object.values(this.sockets).forEach(socket => {
-            socket.emit('endGame');
-        });
     }
 
     update(data) {

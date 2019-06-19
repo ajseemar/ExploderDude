@@ -87,7 +87,7 @@ io.sockets.on('connection', (socket) => {
 
     socket.on('disconnect', socket => {
         lobby.deleteSocket(socket.id);
-        socket.emit('endGame');
+        // socket.emit('endGame');
         // console.log(`socket disconnected: ${socket.id}`);
     });
 });
