@@ -19,6 +19,8 @@ class Player extends Entity {
         this.canDropBomb = true;
         this.lives = 3;
         this.type = "human";
+        this.canDie = true;
+        this.dead = false;
 
         this.bbox = {
             tl: this.position.x + (this.size / 4),
@@ -210,22 +212,26 @@ class Player extends Entity {
     }
 
     isDead () {
-        let gridCoords = [Math.floor((this.position.x+24) / 48), Math.floor((this.position.y+24) / 48)];
-        if (
-            this.grid.gridArray[gridCoords[0]][gridCoords[1]].slice(0,-1) === "EC" ||  
-            this.grid.gridArray[gridCoords[0]][gridCoords[1]].slice(0, -1) === "EU" ||  
-            this.grid.gridArray[gridCoords[0]][gridCoords[1]].slice(0, -1) === "ED" ||  
-            this.grid.gridArray[gridCoords[0]][gridCoords[1]].slice(0, -1) === "EL" ||  
-            this.grid.gridArray[gridCoords[0]][gridCoords[1]].slice(0, -1) === "ER" 
-        ) {
-            this.lives--;
-            if (this.lives > 0) {
-                this.position.x = 48;
-                this.position.y = 48;
-            } else {
-                //game over
+        if (this.canDie && !this.dead) {
+            let gridCoords = [Math.floor((this.position.x+24) / 48), Math.floor((this.position.y+24) / 48)];
+            if (
+                this.grid.gridArray[gridCoords[0]][gridCoords[1]].slice(0,-1) === "EC" ||  
+                this.grid.gridArray[gridCoords[0]][gridCoords[1]].slice(0, -1) === "EU" ||  
+                this.grid.gridArray[gridCoords[0]][gridCoords[1]].slice(0, -1) === "ED" ||  
+                this.grid.gridArray[gridCoords[0]][gridCoords[1]].slice(0, -1) === "EL" ||  
+                this.grid.gridArray[gridCoords[0]][gridCoords[1]].slice(0, -1) === "ER" 
+            ) {
+                this.lives--;
+                this.canDie = false;
+                setTimeout(() => this.canDie = true, 3000);
+                if (this.lives > 0) {
+                    this.position.x = 48;
+                    this.position.y = 48;
+                } else {
+                    this.dead = true;
+                }
+    
             }
-
         }
     }
 
@@ -236,7 +242,7 @@ class Player extends Entity {
             this.bombCount++;
         } else if (this.grid.gridArray[gridCoords[0]][gridCoords[1]] === "I2") {
             this.grid.gridArray[gridCoords[0]][gridCoords[1]] = "X";
-            this.speed += 51;
+            this.speed += 50;
             // setTimeout(() => this.speed /= 2, 5000);
         } else if (this.grid.gridArray[gridCoords[0]][gridCoords[1]] === "I3") {
             this.grid.gridArray[gridCoords[0]][gridCoords[1]] = "X";
