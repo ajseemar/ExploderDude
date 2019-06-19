@@ -5,18 +5,17 @@ import io from 'socket.io-client';
 //                     Client
 const production = "https://exploder-dude.herokuapp.com/";
 const development = "http://localhost:3000/";
-console.log('usux');
-console.log(process.env.PORT);
-console.log(production);
+// console.log(process.env.PORT);
+// console.log(production);
 export const url =
     process.env.NODE_ENV === "development" ? development : production;
 
 // export const url = production;
-export const socket = io(production);
+export const socket = io(development);
 //
 // ---------------------------------------------------->
 
-
+const Game = require('./game');
 const Input = require('./input');
 const Player = require('./player');
 const AI = require('./ai');
@@ -58,6 +57,9 @@ itemsImg.src = "https://raw.githubusercontent.com/ajseemar/ExploderDude/bombs/pu
 
 //------------------------------------------------------------->
 
+
+//------------------------------------------------------------->
+
 var gp;
 
 window.addEventListener("gamepadconnected", function (e) {
@@ -71,9 +73,27 @@ window.addEventListener("gamepadconnected", function (e) {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
+    const socketObject = {};
+
+    // const onClickDemo = () => {
+    //     console.log("hey betch", socketObject)
+    //     new Game(socketObject);
+    // }
+
     const canvas = document.getElementById('canvas');
     const ctx = canvas.getContext('2d');
     const inputHandler = new Input();
+
+    // const demoButton = document.getElementById('demo-btn');
+    
+
+    // socket.on("demo", id => {
+    //     console.log("fart", id);
+    //     demoButton.addEventListener("click", () => {
+    //         socket.emit('startDemo', id);
+    //     })
+    // });
+
 
     socket.on('renderLobby', data => {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -83,7 +103,11 @@ document.addEventListener('DOMContentLoaded', () => {
         (data.gameSize - data.playerNum === 1) ? maybeS = "" : maybeS = "s";
         ctx.fillText(`You are player ${data.playerNum}`, canvas.width/2, canvas.height / 2 + 50);
         ctx.fillText(`Waiting for ${data.gameSize - data.playerNum} more player${maybeS}`, canvas.width/2, canvas.height/2 - 50);
+        ctx.fillText(`OR`, canvas.width/2, canvas.height/2 + 150);
+        // ctx.fillText(`OR`, canvas.width/2, canvas.height/2 + 150);
     })
+
+   
 
     const update = initialTime => {
         let time = Date.now();
@@ -101,7 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
     socket.on('startGame', () => update(Date.now()));
     
     socket.on('render', (data) => {
-        console.log(data);
+        // console.log(data);
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         Grid.render(ctx, data.grid, grassImg, wallImg, crateImg, bombImg, explosionImg, explosionUpImg, explosionDownImg, itemsImg);
         data.pack.forEach(player => {
