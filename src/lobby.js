@@ -10,7 +10,7 @@ class Lobby {
     addSocket(socket) {
         this.sockets[socket.id] = socket;
         if (Object.keys(this.sockets).length === this.gameSize) {
-            const game = new Game(this.sockets);
+            let game = new Game(this.sockets);
             this.games.push(game);
             // Object.values(this.sockets).forEach(socket => socket.emit('startGame'));
             this.sockets = {};

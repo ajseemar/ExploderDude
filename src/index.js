@@ -115,9 +115,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // if (gp) inputHandler.readGamePad(gp);
         socket.emit('update', { dt, pressedKeys: inputHandler.pressedKeys, id: socket.id });
+        let stop = false;
+        socket.on('endGame', () => stop = true);
 
         initialTime = time;
-        requestAnimationFrame(() => update(initialTime));
+
+        if (!stop) requestAnimationFrame(() => update(initialTime));
     };
     document.addEventListener('keydown', e => inputHandler.setKey(e, true));
     document.addEventListener('keyup', e => inputHandler.setKey(e, false));

@@ -55,7 +55,7 @@ const SOCKETS = {};
 const a = "test";
 
 io.sockets.on('connection', (socket) => {
-    // console.log("bitch-ass", socket)
+    // console.log("here", socket)
     // if (Object.keys(SOCKETS).length < 100) {
     //     SOCKETS[socket.id] = socket;
     // }
@@ -87,6 +87,7 @@ io.sockets.on('connection', (socket) => {
 
     socket.on('disconnect', socket => {
         lobby.deleteSocket(socket.id);
+        socket.emit('endGame');
         // console.log(`socket disconnected: ${socket.id}`);
     });
 });

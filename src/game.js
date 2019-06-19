@@ -18,6 +18,12 @@ class Game {
         });
     }
 
+    endGame() {
+        Object.values(this.sockets).forEach(socket => {
+            socket.emit('endGame');
+        });
+    }
+
     update(data) {
         let pack = [];
         Object.values(this.players).forEach(player => {
