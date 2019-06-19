@@ -11,7 +11,7 @@ export const url =
     process.env.NODE_ENV === "development" ? development : production;
 
 // export const url = production;
-export const socket = io(development);
+export const socket = io(production);
 //
 // ---------------------------------------------------->
 
