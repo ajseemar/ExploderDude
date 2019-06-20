@@ -82,10 +82,10 @@ io.sockets.on('connection', (socket) => {
         socket.emit("render", payload);
     });
 
-    socket.on('disconnect', () => {
-        socket.emit('endGame');
-        // forceNew: true
-        console.log(`socket disconnected: ${socket.id}`);
-        lobby.deleteSocket(socket.id);
-    });
+    // socket.on('disconnect', () => {
+    //     socket.emit('endGame');
+    //     // forceNew: true
+    //     console.log(`socket disconnected: ${socket.id}`);
+    //     lobby.deleteSocket(socket.id);
+    // });
 });

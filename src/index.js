@@ -74,11 +74,11 @@ window.addEventListener("gamepadconnected", function (e) {
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    socket.on('endGame', (payload) => {
-        console.log("We here")
-        ctx.clearRect(0, 0, canvas.width, canvas.height)
-        // cancelAnimationFrame(id);
-    });
+    // socket.on('endGame', (payload) => {
+    //     console.log("We here")
+    //     ctx.clearRect(0, 0, canvas.width, canvas.height)
+    //     // cancelAnimationFrame(id);
+    // });
 
     // const onClickDemo = () => {
     //     console.log("hey betch", socketObject)

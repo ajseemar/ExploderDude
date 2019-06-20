@@ -199,16 +199,37 @@ class Player extends Entity {
     }
 
     update (dt, keys, id) {
+        let keyBools = { 'LEFT': false, 'RIGHT': false, 'UP': false, 'DOWN': false };
+
         if (id === this.id) {
             this.handleInput(keys);
-            
+            // console.log(keys)
             this.position.y += this.velocity.y * dt;
             this.position.x += this.velocity.x * dt;
+
+            if (keys['LEFT']) {
+                keyBools['LEFT'] = true;
+            }
+            if (keys['RIGHT']) {
+                keyBools['RIGHT'] = true;
+            }
+            if (keys['UP']) {
+                keyBools['UP'] = true;
+            }
+            if (keys['DOWN']) {
+                keyBools['DOWN'] = true;
+            }
 
             // this.updateBBox();
             this.handleCollisions();
         }
-        return { position: this.position, size: this.size, lives: this.lives, bombCount: this.bombCount, id: this.id /*bbox: this.bbox */};
+        return { position: this.position, 
+            size: this.size, 
+            lives: this.lives, 
+            bombCount: this.bombCount, 
+            id: this.id, 
+            directions: keyBools,
+            /*bbox: this.bbox */};
     }
 
     isDead () {
@@ -255,7 +276,43 @@ class Player extends Entity {
     }
 
     static render (ctx, player, img) {
-        ctx.drawImage(img, 0, 0, 32, 32, player.position.x, player.position.y, player.size, player.size);
+        let standingStill = "DOWN";
+
+        const moveUp = () => ctx.drawImage(img, 0, 0, img.width / 3, img.height / 4, player.position.x, player.position.y, player.size, player.size);
+        const moveDown = () => ctx.drawImage(img, 0, img.height / 2, img.width / 3, img.height / 4, player.position.x, player.position.y, player.size, player.size);
+        const moveLeft = () => ctx.drawImage(img, 0, (3 * img.height) / 4, img.width / 3, img.height / 4, player.position.x, player.position.y, player.size, player.size);
+        const moveRight = () => ctx.drawImage(img, 0, img.height / 4, img.width / 3, img.height / 4, player.position.x, player.position.y, player.size, player.size);
+        // console.log(player.directions);
+        if (player.directions["UP"]) {
+            moveUp();
+            standingStill = "UP"
+        } else if (player.directions["DOWN"]) {
+            moveDown();
+            standingStill = "DOWN"
+        } else if (player.directions["LEFT"]) {
+            moveLeft();
+            standingStill = "LEFT"
+        } else if (player.directions["RIGHT"]) {
+            moveRight();
+            standingStill = "RIGHT"
+        } else {
+            switch (standingStill) {
+                case "DOWN":
+                    moveDown();
+                    break;
+                case "UP":
+                    moveUp();
+                    break;
+                case "LEFT":
+                    moveLeft();
+                    break;
+                case "RIGHT":
+                    moveRight();
+                    break;
+            }
+        }
+
+        // ctx.drawImage(img, 0, 0, 32, 32, player.position.x, player.position.y, player.size, player.size);
     }
 }
 
