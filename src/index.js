@@ -11,7 +11,7 @@ export const url =
     process.env.NODE_ENV === "development" ? development : production;
 
 // export const url = production;
-export const socket = io(production);
+export const socket = io(development);
 //
 // ---------------------------------------------------->
 
@@ -73,7 +73,12 @@ window.addEventListener("gamepadconnected", function (e) {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
-    const socketObject = {};
+
+    socket.on('endGame', (payload) => {
+        console.log("We here")
+        ctx.clearRect(0, 0, canvas.width, canvas.height)
+        // cancelAnimationFrame(id);
+    });
 
     // const onClickDemo = () => {
     //     console.log("hey betch", socketObject)
@@ -107,7 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // ctx.fillText(`OR`, canvas.width/2, canvas.height/2 + 150);
     })
 
-   
+    var id;
 
     const update = initialTime => {
         let time = Date.now();

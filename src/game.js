@@ -19,6 +19,7 @@ class Game {
     }
 
     endGame() {
+        
     }
 
     update(data) {

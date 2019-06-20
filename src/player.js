@@ -20,7 +20,7 @@ class Player extends Entity {
         this.lives = 3;
         this.type = "human";
         this.canDie = true;
-        this.dead = false;
+        this.gameOver = false;
 
         this.bbox = {
             tl: this.position.x + (this.size / 4),
@@ -212,7 +212,7 @@ class Player extends Entity {
     }
 
     isDead () {
-        if (this.canDie && !this.dead) {
+        if (this.canDie && !this.gameOver) {
             let gridCoords = [Math.floor((this.position.x+24) / 48), Math.floor((this.position.y+24) / 48)];
             if (
                 this.grid.gridArray[gridCoords[0]][gridCoords[1]].slice(0,-1) === "EC" ||  
@@ -228,7 +228,7 @@ class Player extends Entity {
                     this.position.x = 48;
                     this.position.y = 48;
                 } else {
-                    this.dead = true;
+                    this.gameOver = true;
                 }
     
             }
